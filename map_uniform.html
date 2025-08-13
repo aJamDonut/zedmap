@@ -102,6 +102,9 @@
           showSiteTiles: false,
           // Show numeric indices above each road
           showRoadIds: false,
+          // Zoom limits (synced from PARAMS.ui.zoom after PARAMS is defined)
+          zoomMin: 0.35,
+          zoomMax: 3,
         };
 
         
@@ -183,8 +186,8 @@
               highwayMultiplier: 1.15,
               wideChance: 0.28,
               wideRange: { min: 1.8, max: 2.7 },
-              normalRange: { min: 0.95, max: 1.4 },
-              edgeExtraPx: 4,
+              normalRange: { min: 0.0, max: 1.4 },
+              edgeExtraPx: 0,
             },
             rough: {
               ampBasePxByKind: { primary: 22, arterial: 30, secondary: 16, other: 10 },
@@ -209,14 +212,22 @@
             },
             centerStripe: {
               dash: [14, 12],
-              alpha: 0.28,
-              widthFactor: 0.06,
+              alpha: 0.0,
+              widthFactor: 0.0,
             },
           },
           ui: {
             gridStep: 64,
+            introZoom: { enabled: true, startScale: 1, duration: 1000 },
+            zoom: { min: 0.09, max: 1, fitMax: 1.5 },
           },
         };
+
+        // Sync behavior zoom bounds from params so event module can enforce them
+        if (PARAMS?.ui?.zoom) {
+          BEHAVIOR.zoomMin = PARAMS.ui.zoom.min ?? BEHAVIOR.zoomMin;
+          BEHAVIOR.zoomMax = PARAMS.ui.zoom.max ?? BEHAVIOR.zoomMax;
+        }
 
         /** Utility: PRNG with seed from string */
         function hashStr(s) {
@@ -585,9 +596,11 @@
             ky = vwH / (maxY - minY);
           const cx = (minX + maxX) / 2;
           const cy = (minY + maxY) / 2;
+          const minK = PARAMS?.ui?.zoom?.min ?? 0.35;
+          const fitMax = PARAMS?.ui?.zoom?.fitMax ?? 1.8;
           const targetK = Math.min(
-            1.8,
-            Math.max(0.35, 0.92 * Math.min(kx, ky))
+            fitMax,
+            Math.max(minK, 0.92 * Math.min(kx, ky))
           );
           const targetX = vwW / 2 - cx * targetK;
           const targetY = vwH / 2 - cy * targetK;
@@ -896,18 +909,7 @@
             const inset = Math.max(1, laneCore * (FCFG.stripeInsetFactor ?? 0.25));
             const leftStripe = mkOffsetPtsVar(pts, -gap + inset);
             const rightStripe = mkOffsetPtsVar(pts, gap - inset);
-            strokePath(
-              leftStripe,
-              `rgba(255,255,255,${(FCFG.stripeAlpha ?? 0.25)})`,
-              Math.max(1, laneCore * (FCFG.stripeWidthFactor ?? 0.18)),
-              true
-            );
-            strokePath(
-              rightStripe,
-              `rgba(255,255,255,${(FCFG.stripeAlpha ?? 0.25)})`,
-              Math.max(1, laneCore * (FCFG.stripeWidthFactor ?? 0.18)),
-              true
-            );
+            // Removed dashed lane stripes for highways
           } else {
             // Single carriageway
             // edge
@@ -924,8 +926,8 @@
             ctx.moveTo(pts[0].x, pts[0].y);
             for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
             ctx.stroke();
-            // Striped center line for roads (more visible than before)
-            if (kind !== "spur") {
+            // Striped center line for non-highway, non-spur roads
+            if (kind !== "spur" && style !== "highway") {
               const CCFG = PARAMS?.roads?.centerStripe || {};
               ctx.strokeStyle = `rgba(255,255,255,${(CCFG.alpha ?? 0.28)})`;
               ctx.lineWidth = Math.max(1, coreW * (CCFG.widthFactor ?? 0.18));
@@ -1672,7 +1674,23 @@
           clampViewport,
         });
         resize();
-        fitView();
+        // Start fairly zoomed out (no auto animate); ensure zoom-out limit allows this
+        (function introZoomIn() {
+          const IZ = PARAMS?.ui?.introZoom;
+          if (!IZ || !IZ.enabled) { fitView(); return; }
+          // Compute target fit without animation
+          fitView({ animate: false });
+          const target = { x: vw.x, y: vw.y, k: vw.k };
+          const cw = canvas.clientWidth, ch = canvas.clientHeight;
+          const centerWorld = screenToWorld(cw / 2, ch / 2);
+          const startK = Math.max(0.1, target.k * (IZ.startScale ?? 0.6));
+          vw.k = startK;
+          vw.x = cw / 2 - centerWorld.x * vw.k;
+          vw.y = ch / 2 - centerWorld.y * vw.k;
+          clampViewport();
+          draw();
+          // No animation to fit; user can zoom in/out manually
+        })();
       })();
     </script>
   </body>

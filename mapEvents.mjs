@@ -101,11 +101,13 @@ export function initMapEvents({
     } else if (e.targetTouches.length >= 2) {
       const a = e.targetTouches[0], b = e.targetTouches[1];
       const d2 = distance(a, b);
-      const k = Math.min(3, Math.max(0.35, touchState.startK * (d2 / touchState.d)));
+  const minK = (BEHAVIOR?.zoomMin ?? 0.35);
+  const maxK = (BEHAVIOR?.zoomMax ?? 3);
+  const k = Math.min(maxK, Math.max(minK, touchState.startK * (d2 / touchState.d)));
       vw.k = k;
       // Keep world point under pinch midpoint stable
-      vw.x = touchState.cx - touchState.wx * vw.k;
-      vw.y = touchState.cy - touchState.wy * vw.k;
+  vw.x = touchState.cx - touchState.wx * vw.k;
+  vw.y = touchState.cy - touchState.wy * vw.k;
   clampViewport?.();
       draw();
     }
@@ -132,8 +134,10 @@ export function initMapEvents({
       const my = e.clientY - rect.top;
       const wx = (mx - vw.x) / vw.k,
             wy = (my - vw.y) / vw.k;
-      const k = Math.exp(-e.deltaY * 0.001);
-      vw.k = Math.min(3, Math.max(0.35, vw.k * k));
+  const k = Math.exp(-e.deltaY * 0.001);
+  const minK = (BEHAVIOR?.zoomMin ?? 0.35);
+  const maxK = (BEHAVIOR?.zoomMax ?? 3);
+  vw.k = Math.min(maxK, Math.max(minK, vw.k * k));
       vw.x = mx - wx * vw.k;
       vw.y = my - wy * vw.k;
   clampViewport?.();
