@@ -1,0 +1,3850 @@
+{
+  "loc_fuel_depot": {
+    "codename": "loc_fuel_depot",
+    "name": "Fuel Depot",
+    "sites": {
+      "fuel_depot_npc_1": {
+        "name": "Fuel Depot NPC 1",
+        "codename": "fuel_depot_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1730504856,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_fuel_depot_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "fuel_depot_npc_2": {
+        "name": "Fuel Depot NPC 2",
+        "codename": "fuel_depot_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1730504856,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_fuel_depot_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "fuel_depot_npc_3": {
+        "name": "Fuel Depot NPC 3",
+        "codename": "fuel_depot_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1730504856,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_fuel_depot_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "room_secure_panel": {
+        "name": "Secure Panel",
+        "codename": "room_secure_panel",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1730504856,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "misc_security_card",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_fuel_depot_1",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 604800
+        }
+      },
+      "job_fuel_depot_fuel_trader_1": {
+        "name": "Fuel Trade 1",
+        "codename": "job_fuel_depot_fuel_trader_1",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1738705003,
+        "last_updated": 1738705003,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "money",
+              "qty": 2500,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "fuel",
+              "qty": 10
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "fuel",
+              "qty": "1-5"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_fuel_depot_2",
+          "disable_chance": "1",
+          "cooldown_time": 10800,
+          "action_type": "trade"
+        }
+      },
+      "job_fuel_depot_fuel_trader_2": {
+        "name": "Fuel Trade 2",
+        "codename": "job_fuel_depot_fuel_trader_2",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1738705003,
+        "last_updated": 1738705003,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "money",
+              "qty": 2500,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "fuel",
+              "qty": 10
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "fuel",
+              "qty": "1-5"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_fuel_depot_2",
+          "disable_chance": "1",
+          "cooldown_time": 10800,
+          "action_type": "trade"
+        }
+      },
+      "job_fuel_depot_fuel_pumps": {
+        "name": "Fuel Pumps",
+        "codename": "job_fuel_depot_fuel_pumps",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1730504856,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "25",
+              "codename": "fuel",
+              "qty": "1-2"
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "ecola",
+              "qty": 1
+            },
+            "loot-3": {
+              "loot_type": "loot_table",
+              "chance": "100",
+              "codename": "loottable_scavenge_rand"
+            },
+            "loot-4": {
+              "loot_type": "item",
+              "chance": "1",
+              "codename": "misc_security_card",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 25,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_fuel_depot_1",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": ""
+        }
+      }
+    }
+  },
+  "loc_reclaim_zone": {
+    "codename": "loc_reclaim_zone",
+    "name": "Reclaim Zone",
+    "sites": {
+      "reclaim_zone_npc_1": {
+        "name": "Reclaim Zone NPC 1",
+        "codename": "reclaim_zone_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1719625662,
+        "last_updated": 1719625662,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_reclaim_zone_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "reclaim_zone_npc_2": {
+        "name": "Reclaim Zone NPC 2",
+        "codename": "reclaim_zone_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1719625662,
+        "last_updated": 1719625662,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_reclaim_zone_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "reclaim_zone_npc_3": {
+        "name": "Reclaim Zone NPC 3",
+        "codename": "reclaim_zone_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1719625662,
+        "last_updated": 1719625662,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_reclaim_zone_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "job_reclaim_zone_scrap_pile": {
+        "name": "Scrap Pile",
+        "codename": "job_reclaim_zone_scrap_pile",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1725395550,
+        "last_updated": 1725395550,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "codename": "craft_scrap",
+              "qty": "25-50",
+              "chance": "100"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 1,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_reclaim_zone_1"
+        }
+      },
+      "job_reclaim_zone_goods_lockup": {
+        "name": "Bulk Goods Lockup",
+        "codename": "job_reclaim_zone_goods_lockup",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1725395550,
+        "last_updated": 1754328291,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "craft_scrap",
+              "qty": 250,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "unrefined_plastic",
+              "qty": 2
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "50",
+              "codename": "unrefined_plastic",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_wait_reward",
+          "wait_time": 120,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_reclaim_zone_1",
+          "disable_chance": "1",
+          "cooldown_time": 600,
+          "action_type": "",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": ""
+        }
+      }
+    }
+  },
+  "loc_logging_camp": {
+    "codename": "loc_logging_camp",
+    "name": "Logging Camp",
+    "sites": {
+      "logging_camp_npc_2_3": {
+        "name": "Logging Camp NPC 2-3",
+        "codename": "logging_camp_npc_2_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754322537,
+        "last_updated": 1754328291,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_lurcher",
+              "level": "1-50"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_logging_camp_2",
+          "wait_time": 0,
+          "respawn_time": 172800
+        }
+      },
+      "logging_camp_npc_2_2": {
+        "name": "Logging Camp NPC 2-2",
+        "codename": "logging_camp_npc_2_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754322521,
+        "last_updated": 1754328291,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_bloater",
+              "level": "20-50"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "50-100"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_logging_camp_2",
+          "wait_time": 0,
+          "respawn_time": 172800
+        }
+      },
+      "logging_camp_npc_2": {
+        "name": "Logging Camp NPC 2",
+        "codename": "logging_camp_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754322458,
+        "last_updated": 1754328291,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_bloater",
+              "level": "20-50"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "50-100"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_logging_camp_2",
+          "wait_time": 0,
+          "respawn_time": 172800
+        }
+      },
+      "room_logging_camp_log_lifter": {
+        "name": "Construct Log Lifter",
+        "codename": "room_logging_camp_log_lifter",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754322247,
+        "last_updated": 1754328291,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "craft_planks",
+              "qty": 250,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "craft_nails",
+              "qty": 250,
+              "take_item": 1
+            },
+            "item_requirement-3": {
+              "req_type": "item_default",
+              "codename": "craft_rope",
+              "qty": 5,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_logging_camp_1",
+          "wait_time": 3600,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 604800
+        }
+      },
+      "job_logging_camp_chop_wood_2": {
+        "name": "Chop Hard Wood",
+        "codename": "job_logging_camp_chop_wood_2",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754322387,
+        "last_updated": 1754927250,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "steel_hatchet",
+              "qty": 1,
+              "take_item": 0
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "craft_log",
+              "qty": "10-20"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 10,
+          "job_skill": "woodcutting",
+          "location": "loc_logging_camp_2",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Chop",
+          "button_collect_label": "",
+          "timer_label": "",
+          "multi_room_group": ""
+        }
+      },
+      "job_logging_camp_chop_wood": {
+        "name": "Chop Wood",
+        "codename": "job_logging_camp_chop_wood",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754321845,
+        "last_updated": 1754927250,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "hatchet",
+              "qty": 1,
+              "take_item": 0
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "craft_log",
+              "qty": "7-15"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "woodcutting",
+          "location": "loc_logging_camp_1",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Chop",
+          "button_collect_label": "",
+          "timer_label": "",
+          "multi_room_group": ""
+        }
+      }
+    }
+  },
+  "loc_the_reserve": {
+    "codename": "loc_the_reserve",
+    "name": "Fishing Reserve",
+    "sites": {
+      "reserve_npc_1": {
+        "name": "Reserve NPC 1",
+        "codename": "reserve_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1719625662,
+        "last_updated": 1719625662,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_the_reserve_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "reserve_npc_2": {
+        "name": "Reserve NPC 2",
+        "codename": "reserve_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1719625662,
+        "last_updated": 1719625662,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_the_reserve_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "reserve_npc_3": {
+        "name": "Reserve NPC 3",
+        "codename": "reserve_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1719625662,
+        "last_updated": 1719625662,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_zombie",
+              "level": "1-10"
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_the_reserve_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "job_reserve_warm_springs": {
+        "name": "Warm Springs",
+        "codename": "job_reserve_warm_springs",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1725395550,
+        "last_updated": 1725395550,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 1,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "wooden_fishing_rod",
+              "qty": 1,
+              "take_item": 0
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "codename": "loottable_fishing_loot_tier1",
+              "chance": "100"
+            },
+            "loot-2": {
+              "codename": "viper_barnaclefish",
+              "chance": "0.1"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 1,
+          "min_skill_level": 0,
+          "job_skill": "fishing",
+          "location": "loc_the_reserve_1"
+        }
+      },
+      "job_reserve_red_river": {
+        "name": "Red River",
+        "codename": "job_reserve_red_river",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 2,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1754328291,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "steel_fishing_rod",
+              "qty": 1,
+              "take_item": 0
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "loot_table",
+              "chance": "100",
+              "codename": "loottable_fishing_loot_tier2"
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "0.1",
+              "codename": "giant_pufferfish",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 15,
+          "min_skill_level": 10,
+          "job_skill": "fishing",
+          "location": "loc_the_reserve_1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": ""
+        }
+      },
+      "job_reserve_grand_lake": {
+        "name": "Grand Lake",
+        "codename": "job_reserve_grand_lake",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 3,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1754328291,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 3,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "pro_fishing_rod",
+              "qty": 1,
+              "take_item": 0
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "loot_table",
+              "chance": "100",
+              "codename": "loottable_fishing_loot_tier3"
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "0.1",
+              "codename": "monster_catfish",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 20,
+          "min_skill_level": 15,
+          "job_skill": "fishing",
+          "location": "loc_the_reserve_1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": ""
+        }
+      }
+    }
+  },
+  "loc_open_meadow": {
+    "codename": "loc_open_meadow",
+    "name": "Open Meadow",
+    "sites": {
+      "room_open_meadow_clear": {
+        "name": "Create Clearing",
+        "codename": "room_open_meadow_clear",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754254102,
+        "last_updated": 1754316835,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "hatchet",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_open_meadow_1",
+          "wait_time": 3600,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 86400
+        }
+      },
+      "job_open_meadow_hunt": {
+        "name": "Hunt Small Game",
+        "codename": "job_open_meadow_hunt",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 2,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752331530,
+        "last_updated": 1752713769,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "weapon_bow",
+              "qty": 1,
+              "take_item": 0
+            },
+            "item_requirement-3": {
+              "req_type": "item_default",
+              "codename": "quiver",
+              "qty": 1,
+              "take_item": 0
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "hide",
+              "qty": 5
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 5,
+          "min_skill_level": 0,
+          "job_skill": "hunting",
+          "location": "loc_open_meadow_1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Hunt"
+        }
+      },
+      "job_open_meadow_hunt_2": {
+        "name": "Hunt Large Game",
+        "codename": "job_open_meadow_hunt_2",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 5,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752754464,
+        "last_updated": 1752764219,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 5,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "weapon_bow",
+              "qty": 1,
+              "take_item": 0
+            },
+            "item_requirement-3": {
+              "req_type": "item_default",
+              "codename": "quiver",
+              "qty": 1,
+              "take_item": 0
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "hide",
+              "qty": 8
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "animal_meat",
+              "qty": 1
+            },
+            "loot-3": {
+              "loot_type": "item",
+              "chance": "5",
+              "codename": "ammo_arrows",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 5,
+          "min_skill_level": 0,
+          "job_skill": "hunting",
+          "location": "loc_open_meadow_1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Hunt"
+        }
+      },
+      "job_open_meadow_lay_traps": {
+        "name": "Setup Trap",
+        "codename": "job_open_meadow_lay_traps",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 10,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754247416,
+        "last_updated": 1754316835,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 5,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "craft_log",
+              "qty": 125,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "animal_meat",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_wait_reward",
+          "wait_time": 36000,
+          "skill_level": 5,
+          "min_skill_level": 0,
+          "job_skill": "hunting",
+          "location": "loc_open_meadow_2",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Setup",
+          "button_collect_label": "Check",
+          "timer_label": "Trap armed! Return in:"
+        }
+      },
+      "job_open_meadow_lay_traps2": {
+        "name": "Setup Trap",
+        "codename": "job_open_meadow_lay_traps2",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 20,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754248234,
+        "last_updated": 1754316835,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 5,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "craft_log",
+              "qty": 125,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "animal_meat",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_wait_reward",
+          "wait_time": 36000,
+          "skill_level": 5,
+          "min_skill_level": 15,
+          "job_skill": "hunting",
+          "location": "loc_open_meadow_2",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Setup",
+          "button_collect_label": "Check",
+          "timer_label": "Trap armed! Return in:"
+        }
+      },
+      "job_open_meadow_lay_traps3": {
+        "name": "Setup Quick Trap",
+        "codename": "job_open_meadow_lay_traps3",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 30,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754248241,
+        "last_updated": 1754316835,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 5,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "craft_planks",
+              "qty": 125,
+              "take_item": 1
+            },
+            "item_requirement-3": {
+              "req_type": "item_default",
+              "codename": "craft_rope",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "animal_meat",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_wait_reward",
+          "wait_time": 18000,
+          "skill_level": 5,
+          "min_skill_level": 25,
+          "job_skill": "hunting",
+          "location": "loc_open_meadow_2",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Setup",
+          "button_collect_label": "Check",
+          "timer_label": "Trap armed! Return in:"
+        }
+      },
+      "job_open_meadow_lay_traps4": {
+        "name": "Setup Quick Trap",
+        "codename": "job_open_meadow_lay_traps4",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 40,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754248273,
+        "last_updated": 1754316835,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 5,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "craft_planks",
+              "qty": 125,
+              "take_item": 1
+            },
+            "item_requirement-3": {
+              "req_type": "item_default",
+              "codename": "craft_rope",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "animal_meat",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_wait_reward",
+          "wait_time": 18000,
+          "skill_level": 5,
+          "min_skill_level": 50,
+          "job_skill": "hunting",
+          "location": "loc_open_meadow_2",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Setup",
+          "button_collect_label": "Check",
+          "timer_label": "Trap armed! Return in:"
+        }
+      }
+    }
+  },
+  "loc_junkyard": {
+    "codename": "loc_junkyard",
+    "name": "Junkyard",
+    "sites": {
+      "junkyard_npc_1": {
+        "name": "Junkyard NPC 1",
+        "codename": "junkyard_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752759265,
+        "last_updated": 1752762693,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_raging_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_raging_bloater",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_1",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "junkyard_npc_1_2": {
+        "name": "Junkyard NPC 1-2",
+        "codename": "junkyard_npc_1_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752759302,
+        "last_updated": 1752759372,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_raging_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_raging_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_1",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "junkyard_npc_3": {
+        "name": "Junkyard NPC 3",
+        "codename": "junkyard_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752762535,
+        "last_updated": 1752762535,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_x_bloater",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_x_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_3",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "junkyard_npc_3_1": {
+        "name": "Junkyard NPC 3-1",
+        "codename": "junkyard_npc_3_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752762607,
+        "last_updated": 1752762607,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_x_bloater",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_x_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_3",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "junkyard_npc_2": {
+        "name": "Junkyard NPC 2",
+        "codename": "junkyard_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752762669,
+        "last_updated": 1752762680,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_frenzied_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_2",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "junkyard_npc_2_2": {
+        "name": "Junkyard NPC 2-2",
+        "codename": "junkyard_npc_2_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752762843,
+        "last_updated": 1752762843,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_frenzied_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_2",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "junkyard_npc_2_3": {
+        "name": "Junkyard NPC 2-3",
+        "codename": "junkyard_npc_2_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752762849,
+        "last_updated": 1752762849,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-30"
+            },
+            "item_list-2": {
+              "codename": "npc_frenzied_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_junkyard_2",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "room_backup_generator": {
+        "name": "Power Backup Generator",
+        "codename": "room_backup_generator",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752345139,
+        "last_updated": 1752345763,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "battery",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_junkyard_1",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 172800
+        }
+      },
+      "room_junkyard_hack_security_door": {
+        "name": "Hack Security Door",
+        "codename": "room_junkyard_hack_security_door",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752345821,
+        "last_updated": 1752345827,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "splicer",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_junkyard_2",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 172800
+        }
+      },
+      "job_junkyard_dumpsters": {
+        "name": "Dumpsters",
+        "codename": "job_junkyard_dumpsters",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 3,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752342247,
+        "last_updated": 1752758862,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 15,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "craft_scrap",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "broken_remote",
+              "qty": 1
+            },
+            "loot-3": {
+              "loot_type": "item",
+              "chance": "1",
+              "codename": "battery",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 15,
+          "min_skill_level": 15,
+          "job_skill": "scavenging",
+          "location": "loc_junkyard_1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Search"
+        }
+      },
+      "job_junkyard_white_goods": {
+        "name": "White Goods",
+        "codename": "job_junkyard_white_goods",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 3,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752386745,
+        "last_updated": 1752976754,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 20,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "broken_remote",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "50",
+              "codename": "broken_radio",
+              "qty": 1
+            },
+            "loot-3": {
+              "loot_type": "item",
+              "chance": "1",
+              "codename": "broken_screen",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 20,
+          "min_skill_level": 25,
+          "job_skill": "scavenging",
+          "location": "loc_junkyard_2",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Search"
+        }
+      },
+      "job_junkyard_pile_of_old_tech": {
+        "name": "Pile of Old Tech",
+        "codename": "job_junkyard_pile_of_old_tech",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 3,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752387278,
+        "last_updated": 1752762474,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 15,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "broken_remote",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "25",
+              "codename": "broken_radio",
+              "qty": 1
+            },
+            "loot-3": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "broken_screen",
+              "qty": 1
+            },
+            "loot-4": {
+              "loot_type": "item",
+              "chance": "0.2",
+              "codename": "automation_arm",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 30,
+          "min_skill_level": 40,
+          "job_skill": "scavenging",
+          "location": "loc_junkyard_3",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": "Search"
+        }
+      }
+    }
+  },
+  "loc_research_facility": {
+    "codename": "loc_research_facility",
+    "name": "Research Facility",
+    "sites": {
+      "research_facility_npc_1": {
+        "name": "Research Facility NPC 1",
+        "codename": "research_facility_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752496388,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_spitter",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_2": {
+        "name": "Research Facility NPC 2",
+        "codename": "research_facility_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752496437,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_raging_crawler",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_2",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_2_2": {
+        "name": "Research Facility NPC 2-2",
+        "codename": "research_facility_npc_2_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752758149,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_2",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_2": {
+        "name": "Research Facility NPC 1-2",
+        "codename": "research_facility_npc_1_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876909,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_spitter",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_3": {
+        "name": "Research Facility NPC 1-3",
+        "codename": "research_facility_npc_1_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876923,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_bloater",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_frenzied_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_4": {
+        "name": "Research Facility NPC 1-4",
+        "codename": "research_facility_npc_1_4",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876929,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_raging_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_5": {
+        "name": "Research Facility NPC 1-5",
+        "codename": "research_facility_npc_1_5",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876936,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_spitter",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_huge_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_6": {
+        "name": "Research Facility NPC 1-6",
+        "codename": "research_facility_npc_1_6",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876942,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_spitter",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_huge_bloater",
+              "level": 1
+            },
+            "item_list-3": {
+              "codename": "npc_crawler",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_7": {
+        "name": "Research Facility NPC 1-7",
+        "codename": "research_facility_npc_1_7",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876947,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_spitter",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_8": {
+        "name": "Research Facility NPC 1-8",
+        "codename": "research_facility_npc_1_8",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752876952,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_raging_zombie",
+              "level": "1-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_9": {
+        "name": "Research Facility NPC 1-9",
+        "codename": "research_facility_npc_1_9",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752877149,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_raging_zombie",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_soldier",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_10": {
+        "name": "Research Facility NPC 1-10",
+        "codename": "research_facility_npc_1_10",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752877153,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_raging_zombie",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_soldier",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_1_11": {
+        "name": "Research Facility NPC 1-11",
+        "codename": "research_facility_npc_1_11",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752877516,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_horde_leader",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_1",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_2_3": {
+        "name": "Research Facility NPC 2-3",
+        "codename": "research_facility_npc_2_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752877902,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_huge_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_2",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_2_4": {
+        "name": "Research Facility NPC 2-4",
+        "codename": "research_facility_npc_2_4",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752877911,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_frenzied_bloater",
+              "level": 1
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_2",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "research_facility_npc_2_5": {
+        "name": "Research Facility NPC 2-5",
+        "codename": "research_facility_npc_2_5",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752877919,
+        "last_updated": 1753639838,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_frenzied_crawler",
+              "level": "1-10"
+            },
+            "item_list-2": {
+              "codename": "npc_frenzied_zombie",
+              "level": "1-15"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_research_facility_2",
+          "wait_time": 0,
+          "respawn_time": 345600
+        }
+      },
+      "room_serum_storage": {
+        "name": "Serum Storage",
+        "codename": "room_serum_storage",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752496619,
+        "last_updated": 1752496619,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "splicer",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_research_facility_1",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 3600
+        }
+      },
+      "job_chemical_storage": {
+        "name": "Secure Chemical Storage",
+        "codename": "job_chemical_storage",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 3,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752496113,
+        "last_updated": 1752975948,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 10,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "splicer",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "tincture",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 10,
+          "min_skill_level": 15,
+          "job_skill": "scavenging",
+          "location": "loc_research_facility_1",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": ""
+        }
+      },
+      "job_serum_lockbox": {
+        "name": "Serum Lockbox",
+        "codename": "job_serum_lockbox",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 3,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752498228,
+        "last_updated": 1752879028,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 15,
+              "take_item": 1
+            },
+            "item_requirement-2": {
+              "req_type": "item_default",
+              "codename": "splicer",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "serum",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 10,
+          "min_skill_level": 35,
+          "job_skill": "scavenging",
+          "location": "loc_research_facility_2",
+          "cooldown_time": 0,
+          "action_type": "",
+          "button_label": ""
+        }
+      }
+    }
+  },
+  "loc_data_center": {
+    "codename": "loc_data_center",
+    "name": "Data Center",
+    "sites": {
+      "data_center_npc_1": {
+        "name": "Data Center NPC 1",
+        "codename": "data_center_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752572677,
+        "last_updated": 1752573091,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_bloater",
+              "level": "1-5"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_data_center_1",
+          "wait_time": 0,
+          "respawn_time": 90000
+        }
+      },
+      "data_center_npc_2": {
+        "name": "Data Center NPC 2",
+        "codename": "data_center_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752572701,
+        "last_updated": 1752573582,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_mutated_bloater",
+              "level": "1-5"
+            },
+            "item_list-2": {
+              "codename": "npc_huge_bloater",
+              "level": "1-5"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_data_center_2",
+          "wait_time": 0,
+          "respawn_time": 90000
+        }
+      },
+      "data_center_npc_3": {
+        "name": "Data Center NPC 3",
+        "codename": "data_center_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752572740,
+        "last_updated": 1752879679,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_legendary_bloater",
+              "level": "1-5"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_data_center_3",
+          "wait_time": 0,
+          "respawn_time": 90000
+        }
+      },
+      "data_center_npc_2_2": {
+        "name": "Data Center NPC 2-2",
+        "codename": "data_center_npc_2_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752573620,
+        "last_updated": 1752573685,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_mutated_bloater",
+              "level": "1-5"
+            },
+            "item_list-2": {
+              "codename": "npc_huge_bloater",
+              "level": "1-5"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_data_center_2",
+          "wait_time": 0,
+          "respawn_time": 90000
+        }
+      },
+      "data_center_npc_3_2": {
+        "name": "Data Center NPC 3-2",
+        "codename": "data_center_npc_3_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752573662,
+        "last_updated": 1752879640,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_legendary_bloater",
+              "level": "1-5"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_data_center_3",
+          "wait_time": 0,
+          "respawn_time": 90000
+        }
+      },
+      "data_center_npc_3_3": {
+        "name": "Data Center NPC 3-3",
+        "codename": "data_center_npc_3_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752573699,
+        "last_updated": 1752750596,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_huge_legendary_bloater",
+              "level": "1-5"
+            },
+            "item_list-2": {
+              "codename": "npc_huge_mutated_bloater",
+              "level": "1-50"
+            },
+            "item_list-3": {
+              "codename": "npc_huge_bloater",
+              "level": "1-100"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_data_center_3",
+          "wait_time": 0,
+          "respawn_time": 90000
+        }
+      },
+      "room_dc_security_room": {
+        "name": "Security Room",
+        "codename": "room_dc_security_room",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752573079,
+        "last_updated": 1752881113,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "misc_lockpick",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_data_center_1",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 86400
+        }
+      },
+      "room_dc_control_room": {
+        "name": "Control Room",
+        "codename": "room_dc_control_room",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752573469,
+        "last_updated": 1752881015,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "explosives",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_data_center_2",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 86400
+        }
+      },
+      "job_server_room": {
+        "name": "Salvage Servers",
+        "codename": "job_server_room",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 5,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1752879750,
+        "last_updated": 1752880241,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 10,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "electrical_components",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "salvaged_tech",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": "5",
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_data_center_3",
+          "disable_chance": "1",
+          "cooldown_time": 86400,
+          "action_type": "",
+          "button_label": "Salvage"
+        }
+      }
+    }
+  },
+  "loc_demolition_site": {
+    "codename": "loc_demolition_site",
+    "name": "Demolition Site",
+    "sites": {
+      "demolition_site_npc_1": {
+        "name": "Demolition Site NPC 1",
+        "codename": "demolition_site_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_2": {
+        "name": "Demolition Site NPC 2",
+        "codename": "demolition_site_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_4": {
+        "name": "Demolition Site NPC 4",
+        "codename": "demolition_site_npc_4",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_3": {
+        "name": "Demolition Site NPC 3",
+        "codename": "demolition_site_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_5": {
+        "name": "Demolition Site NPC 5",
+        "codename": "demolition_site_npc_5",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_6": {
+        "name": "Demolition Site NPC 6",
+        "codename": "demolition_site_npc_6",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_7": {
+        "name": "Demolition Site NPC 7",
+        "codename": "demolition_site_npc_7",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_8": {
+        "name": "Demolition Site NPC 8",
+        "codename": "demolition_site_npc_8",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_9": {
+        "name": "Demolition Site NPC 9",
+        "codename": "demolition_site_npc_9",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_3",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "demolition_site_npc_10": {
+        "name": "Demolition Site NPC 10",
+        "codename": "demolition_site_npc_10",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_demolition_site_3",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "room_secure_gate_2": {
+        "name": "Secure Gate",
+        "codename": "room_secure_gate_2",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "misc_lockpick",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_demolition_site_2",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 604800
+        }
+      },
+      "room_secure_gate_1": {
+        "name": "Secure Gate",
+        "codename": "room_secure_gate_1",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "misc_lockpick",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_demolition_site_1",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 604800
+        }
+      },
+      "job_demolition_site_explosive_cache": {
+        "name": "Explosive Debris Cache",
+        "codename": "job_demolition_site_explosive_cache",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728422739,
+        "last_updated": 1754328291,
+        "vars": {
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "explosives",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "gun_powder",
+              "qty": "50-100"
+            },
+            "loot-3": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "advanced_tools",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_demolition_site_3",
+          "disable_chance": "1",
+          "cooldown_time": 172800,
+          "action_type": "loot",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": "",
+          "items": []
+        }
+      }
+    }
+  },
+  "loc_military_base": {
+    "codename": "loc_military_base",
+    "name": "Military Base",
+    "sites": {
+      "military_base_npc_3": {
+        "name": "Military Base NPC 3",
+        "codename": "military_base_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754337742,
+        "last_updated": 1754338309,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_general",
+              "level": "2-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_military_base_3",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "military_base_npc_2_3": {
+        "name": "Military Base NPC 2-3",
+        "codename": "military_base_npc_2_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754337360,
+        "last_updated": 1754338309,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_soldier",
+              "level": "2-10"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_corporal",
+              "level": "2-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_military_base_2",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "military_base_npc_2_2": {
+        "name": "Military Base NPC 2-2",
+        "codename": "military_base_npc_2_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754337351,
+        "last_updated": 1754338309,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_soldier",
+              "level": "2-10"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_corporal",
+              "level": "2-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_military_base_2",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "military_base_npc_2": {
+        "name": "Military Base NPC 2",
+        "codename": "military_base_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754337197,
+        "last_updated": 1754338309,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_soldier",
+              "level": "2-10"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_corporal",
+              "level": "2-10"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_military_base_2",
+          "wait_time": 0,
+          "respawn_time": 86400
+        }
+      },
+      "room_military_zone_generals_quarters": {
+        "name": "Enter Generals Quarters",
+        "codename": "room_military_zone_generals_quarters",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754337705,
+        "last_updated": 1754338309,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "generals_rfid",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_military_base_2",
+          "wait_time": 60,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 86400
+        }
+      },
+      "room_military_zone_enter_barracks": {
+        "name": "Enter Barracks",
+        "codename": "room_military_zone_enter_barracks",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754336508,
+        "last_updated": 1754338309,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "barracks_key",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_military_base_1",
+          "wait_time": 60,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 86400
+        }
+      },
+      "job_military_base_vehicle_lockup": {
+        "name": "Vehicle Lockup",
+        "codename": "job_military_base_vehicle_lockup",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754336888,
+        "last_updated": 1754924375,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 5,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "tarp",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "loot_table",
+              "chance": "25",
+              "codename": "loottable_scavenge_rand"
+            },
+            "loot-3": {
+              "loot_type": "loot_table",
+              "chance": "25",
+              "codename": "loottable_high_resources"
+            },
+            "loot-4": {
+              "loot_type": "loot_table",
+              "chance": "10",
+              "codename": "loottable_high_buildresources"
+            },
+            "loot-5": {
+              "loot_type": "item",
+              "chance": "5",
+              "codename": "generals_rfid",
+              "qty": 1
+            },
+            "loot-6": {
+              "loot_type": "item",
+              "chance": "5",
+              "codename": "plastic",
+              "qty": "1-2"
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_military_base_2",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "loot",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": ""
+        }
+      },
+      "job_military_base_generals_lockbox": {
+        "name": "Generals Lockbox",
+        "codename": "job_military_base_generals_lockbox",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754337858,
+        "last_updated": 1754924375,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 2,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "tarp",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "loot_table",
+              "chance": "25",
+              "codename": "loottable_scavenge_rand"
+            },
+            "loot-3": {
+              "loot_type": "item",
+              "chance": "25",
+              "codename": "generals_rfid",
+              "qty": 1
+            },
+            "loot-4": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "defense_soldier_boots",
+              "qty": 1
+            },
+            "loot-5": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "defense_riot_helmet",
+              "qty": 1
+            },
+            "loot-6": {
+              "loot_type": "item",
+              "chance": "75",
+              "codename": "advanced_tools",
+              "qty": "1-2"
+            },
+            "loot-7": {
+              "loot_type": "item",
+              "chance": "15",
+              "codename": "explosives",
+              "qty": 1
+            },
+            "loot-8": {
+              "loot_type": "item",
+              "chance": "50",
+              "codename": "broken_radio",
+              "qty": 1
+            },
+            "loot-9": {
+              "loot_type": "item",
+              "chance": "50",
+              "codename": "broken_screen",
+              "qty": 1
+            },
+            "loot-10": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "fuel",
+              "qty": 10
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_military_base_3",
+          "disable_chance": "1",
+          "cooldown_time": 86400,
+          "action_type": "loot",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": ""
+        }
+      },
+      "job_military_base_secure_gatehouse": {
+        "name": "Secure Gatehouse",
+        "codename": "job_military_base_secure_gatehouse",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1754336358,
+        "last_updated": 1754338309,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "item",
+              "chance": "100",
+              "codename": "flux",
+              "qty": 1
+            },
+            "loot-2": {
+              "loot_type": "loot_table",
+              "chance": "10",
+              "codename": "loottable_scavenge_rand"
+            },
+            "loot-3": {
+              "loot_type": "loot_table",
+              "chance": "10",
+              "codename": "loottable_scavenge_rand"
+            },
+            "loot-4": {
+              "loot_type": "loot_table",
+              "chance": "10",
+              "codename": "loottable_high_buildresources"
+            },
+            "loot-5": {
+              "loot_type": "item",
+              "chance": "10",
+              "codename": "barracks_key",
+              "qty": 1
+            },
+            "loot-6": {
+              "loot_type": "item",
+              "chance": "1",
+              "codename": "generals_rfid",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_military_base_1",
+          "disable_chance": "1",
+          "cooldown_time": 0,
+          "action_type": "loot",
+          "button_label": "",
+          "button_collect_label": "",
+          "timer_label": ""
+        }
+      }
+    }
+  },
+  "loc_construction_yard": {
+    "codename": "loc_construction_yard",
+    "name": "Construction Yard",
+    "sites": {
+      "construction_yard_npc_1": {
+        "name": "Construction Yard NPC 1",
+        "codename": "construction_yard_npc_1",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1734721310,
+        "last_updated": 1734721310,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_workman",
+              "level": "1-26"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "construction_yard_npc_2": {
+        "name": "Construction Yard NPC 2",
+        "codename": "construction_yard_npc_2",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "construction_yard_npc_3": {
+        "name": "Construction Yard NPC 3",
+        "codename": "construction_yard_npc_3",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_crawler",
+              "level": "1-50"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-4": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "construction_yard_npc_4": {
+        "name": "Construction Yard NPC 4",
+        "codename": "construction_yard_npc_4",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-3": {
+              "codename": "npc_undead_workman",
+              "level": "1-25"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_1",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "construction_yard_npc_5": {
+        "name": "Construction Yard NPC 5",
+        "codename": "construction_yard_npc_5",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "construction_yard_npc_6": {
+        "name": "Construction Yard NPC 6",
+        "codename": "construction_yard_npc_6",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-25"
+            },
+            "item_list-2": {
+              "codename": "npc_undead_supervisor",
+              "level": "1-30"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "construction_yard_npc_7": {
+        "name": "Construction Yard NPC 7",
+        "codename": "construction_yard_npc_7",
+        "type": "room_npc",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "npcs": {
+            "item_list-1": {
+              "codename": "npc_undead_supervisor",
+              "level": "20-40"
+            }
+          },
+          "processPHP": "room_npc",
+          "job_layout": "room_npc",
+          "location": "loc_construction_yard_2",
+          "wait_time": 0,
+          "respawn_time": 604800
+        }
+      },
+      "room_secure_lockup_door": {
+        "name": "Secure Lockup Door",
+        "codename": "room_secure_lockup_door",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1746819212,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "misc_lockpick",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_construction_yard_1",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 604800
+        }
+      },
+      "room_security_vault": {
+        "name": "Security Vault",
+        "codename": "room_security_vault",
+        "type": "room_gates",
+        "tags": "",
+        "value": 0,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728421817,
+        "last_updated": 1728421817,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "explosives",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "processPHP": "room_gate",
+          "job_layout": "room_gate",
+          "location": "loc_construction_yard_2",
+          "wait_time": 30,
+          "min_skill_level": 0,
+          "job_skill": "",
+          "relock_time": 604800
+        }
+      },
+      "job_vault_lockbox_1": {
+        "name": "Lockbox",
+        "codename": "job_vault_lockbox_1",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728422053,
+        "last_updated": 1728422053,
+        "vars": {
+          "rewards": {
+            "loot-1": {
+              "codename": "loottable_lockbox",
+              "chance": "100",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_construction_yard_3",
+          "disable_chance": "1",
+          "cooldown_time": 21600,
+          "items": [],
+          "action_type": "loot"
+        }
+      },
+      "job_vault_lockbox_2": {
+        "name": "Lockbox",
+        "codename": "job_vault_lockbox_2",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728422053,
+        "last_updated": 1728422053,
+        "vars": {
+          "rewards": {
+            "loot-1": {
+              "codename": "loottable_lockbox",
+              "chance": "100",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_construction_yard_3",
+          "disable_chance": "1",
+          "cooldown_time": 21600,
+          "items": [],
+          "action_type": "loot"
+        }
+      },
+      "job_vault_lockbox_3": {
+        "name": "Lockbox",
+        "codename": "job_vault_lockbox_3",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728422053,
+        "last_updated": 1728422053,
+        "vars": {
+          "rewards": {
+            "loot-1": {
+              "codename": "loottable_lockbox",
+              "chance": "100",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_construction_yard_3",
+          "disable_chance": "1",
+          "cooldown_time": 21600,
+          "items": [],
+          "action_type": "loot"
+        }
+      },
+      "job_vault_lockbox_4": {
+        "name": "Lockbox",
+        "codename": "job_vault_lockbox_4",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1728422053,
+        "last_updated": 1728422053,
+        "vars": {
+          "rewards": {
+            "loot-1": {
+              "codename": "loottable_lockbox",
+              "chance": "100",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_construction_yard_3",
+          "disable_chance": "1",
+          "cooldown_time": 21600,
+          "action_type": "loot",
+          "items": []
+        }
+      },
+      "job_foundation_pit": {
+        "name": "Foundation Pit",
+        "codename": "job_foundation_pit",
+        "type": "room_scavenge",
+        "tags": "",
+        "value": 1,
+        "quantity": 0,
+        "credits_shop_item": 0,
+        "created": 1730504856,
+        "last_updated": 1730504856,
+        "vars": {
+          "items": {
+            "item_requirement-1": {
+              "req_type": "item_default",
+              "codename": "rad",
+              "qty": 1,
+              "take_item": 1
+            }
+          },
+          "rewards": {
+            "loot-1": {
+              "loot_type": "loot_table",
+              "chance": "100",
+              "codename": "loottable_construction"
+            },
+            "loot-2": {
+              "loot_type": "item",
+              "chance": "50",
+              "codename": "cement",
+              "qty": 1
+            }
+          },
+          "processPHP": "room_scavenge",
+          "overallCap": 100,
+          "job_layout": "room_scavenge",
+          "wait_time": 0,
+          "skill_level": 0,
+          "min_skill_level": 0,
+          "job_skill": "scavenging",
+          "location": "loc_construction_yard_1",
+          "disable_chance": "0",
+          "cooldown_time": 0,
+          "action_type": ""
+        }
+      }
+    }
+  }
+}

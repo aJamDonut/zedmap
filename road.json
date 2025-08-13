@@ -1,0 +1,807 @@
+{
+  "0": {
+    "a": "loc_fuel_depot",
+    "b": "loc_reclaim_zone",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": true
+  },
+  "1": {
+    "a": "loc_reclaim_zone",
+    "b": "loc_logging_camp",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": true
+  },
+  "2": {
+    "a": "loc_logging_camp",
+    "b": "loc_the_reserve",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": false
+  },
+  "3": {
+    "a": "loc_the_reserve",
+    "b": "loc_open_meadow",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": false
+  },
+  "4": {
+    "a": "loc_open_meadow",
+    "b": "loc_junkyard",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": false
+  },
+  
+  "6": {
+    "a": "loc_research_facility",
+    "b": "loc_data_center",
+    "kind": "primary",
+    "style": "rough",
+    "freeway": false
+  },
+  "7": {
+    "a": "loc_data_center",
+    "b": "loc_demolition_site",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": false
+  },
+  "8": {
+    "a": "loc_demolition_site",
+    "b": "loc_military_base",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": true
+  },
+  "9": {
+    "a": "loc_military_base",
+    "b": "loc_construction_yard",
+    "kind": "primary",
+    "style": "highway",
+    "freeway": false
+  },
+  "14": {
+    "a": "loc_the_reserve",
+    "b": "loc_junkyard",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "15": {
+    "a": "loc_open_meadow",
+    "b": "loc_research_facility",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "16": {
+    "a": "loc_junkyard",
+    "b": "loc_data_center",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "17": {
+    "a": "loc_research_facility",
+    "b": "loc_construction_yard",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "18": {
+    "a": "loc_data_center",
+    "b": "loc_military_base",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "19": {
+    "a": "loc_demolition_site",
+    "b": "loc_reclaim_zone",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "20": {
+    "a": "loc_military_base",
+    "b": "loc_fuel_depot",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "21": {
+    "a": "loc_construction_yard",
+    "b": "loc_the_reserve",
+    "kind": "secondary",
+    "style": "rough",
+    "freeway": false
+  },
+  "22": {
+    "a": "loc_city",
+    "b": "loc_construction_yard",
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "23": {
+    "a": "loc_city",
+    "b": "loc_open_meadow",
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": true
+  },
+  "24": {
+    "a": "loc_city",
+    "b": "loc_data_center",
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "25": {
+    "a": "loc_city",
+    "b": "loc_junkyard",
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": true
+  },
+  "26": {
+    "id": "spur_loc_junkyard_1",
+    "a": "loc_junkyard",
+    "bCoord": {
+      "x": -1722.233130483834,
+      "y": 1563.6922817161067
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.7749998973449692
+  },
+  "27": {
+    "id": "spur_loc_junkyard_2",
+    "a": "loc_junkyard",
+    "bCoord": {
+      "x": -1575.577576464704,
+      "y": 1508.0822313783542
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.4202462211251259
+  },
+  "28": {
+    "id": "spur_loc_demolition_site_3",
+    "a": "loc_demolition_site",
+    "bCoord": {
+      "x": -417.5679980144871,
+      "y": -1147.6979909858696
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.5356387824751437
+  },
+  "29": {
+    "id": "spur_loc_demolition_site_4",
+    "a": "loc_demolition_site",
+    "bCoord": {
+      "x": -882.6305945831976,
+      "y": -1744.804137514639
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.12610141574405134
+  },
+  "30": {
+    "id": "spur_loc_construction_yard_5",
+    "a": "loc_construction_yard",
+    "bCoord": {
+      "x": 573.9622920729539,
+      "y": -2778.6010777685924
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.7952773717464879
+  },
+  "31": {
+    "id": "spur_loc_construction_yard_6",
+    "a": "loc_construction_yard",
+    "bCoord": {
+      "x": 1032.0443476308496,
+      "y": -3788.216557753951
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.4557553312042728
+  },
+  "32": {
+    "id": "spur_loc_construction_yard_7",
+    "a": "loc_construction_yard",
+    "bCoord": {
+      "x": 1421.874005869794,
+      "y": -2026.4866942531266
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.36366346329450605
+  },
+  "33": {
+    "id": "spur_loc_the_reserve_8",
+    "a": "loc_the_reserve",
+    "bCoord": {
+      "x": -793.2457680737953,
+      "y": -196.37929506634407
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.29368608065415175
+  },
+  "34": {
+    "id": "spur_loc_reclaim_zone_9",
+    "a": "loc_reclaim_zone",
+    "bCoord": {
+      "x": 1885.3042132352998,
+      "y": -304.9823262545461
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.4151149178622291
+  },
+  "35": {
+    "id": "spur_loc_reclaim_zone_10",
+    "a": "loc_reclaim_zone",
+    "bCoord": {
+      "x": 874.3682637475192,
+      "y": -33.15633296090724
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.6958130463957787
+  },
+  "36": {
+    "id": "spur_loc_military_base_11",
+    "a": "loc_military_base",
+    "bCoord": {
+      "x": -98.57624053947966,
+      "y": -737.5216106770381
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.24140549707226458
+  },
+  "37": {
+    "id": "spur_loc_military_base_12",
+    "a": "loc_military_base",
+    "bCoord": {
+      "x": -73.73425123617372,
+      "y": -517.032939611939
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.4471078706905246
+  },
+  "38": {
+    "id": "spur_loc_military_base_13",
+    "a": "loc_military_base",
+    "bCoord": {
+      "x": 753.8186819235101,
+      "y": -276.6468364902178
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.6491001531481743
+  },
+  "39": {
+    "id": "spur_loc_data_center_14",
+    "a": "loc_data_center",
+    "bCoord": {
+      "x": -77.05715871536944,
+      "y": -821.0804538918405
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.7629596935352311
+  },
+  "40": {
+    "id": "spur_loc_data_center_15",
+    "a": "loc_data_center",
+    "bCoord": {
+      "x": -602.4016016991783,
+      "y": -891.4978864446139
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.42153868896421054
+  },
+  "41": {
+    "id": "spur_loc_logging_camp_16",
+    "a": "loc_logging_camp",
+    "bCoord": {
+      "x": 1526.2301441327177,
+      "y": 517.2945363504674
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.3156669908901677
+  },
+  "42": {
+    "id": "spur_loc_fuel_depot_17",
+    "a": "loc_fuel_depot",
+    "bCoord": {
+      "x": 1767.3563038703717,
+      "y": -1203.208425956087
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.3700147412251681
+  },
+  
+  "44": {
+    "id": "hair_spur_loc_junkyard_1_1",
+    "a": {
+      "id": "hair_anchor_spur_loc_junkyard_1_1",
+      "x": -1408.1526690535106,
+      "y": 1451.5087404229405
+    },
+    "bCoord": {
+      "x": -1454.4473137794196,
+      "y": 1380.8364777901693
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.29850257765501736
+  },
+  "46": {
+    "id": "hair_spur_loc_junkyard_2_3",
+    "a": {
+      "id": "hair_anchor_spur_loc_junkyard_2_3",
+      "x": -1410.9681960486212,
+      "y": 1450.9706807650539
+    },
+    "bCoord": {
+      "x": -1367.1625551141426,
+      "y": 1286.3015658528652
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.20327927358448505
+  },
+  "49": {
+    "id": "hair_spur_loc_demolition_site_3_6",
+    "a": {
+      "id": "hair_anchor_spur_loc_demolition_site_3_6",
+      "x": -407.2657542186391,
+      "y": -1097.7082787964464
+    },
+    "bCoord": {
+      "x": -270.35427338296995,
+      "y": -1165.1014157441768
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.19268973344005644
+  },
+  "50": {
+    "id": "hair_spur_loc_demolition_site_4_7",
+    "a": {
+      "id": "hair_anchor_spur_loc_demolition_site_4_7",
+      "x": -641.2214486187695,
+      "y": -1379.5977264002413
+    },
+    "bCoord": {
+      "x": -645.7361131700903,
+      "y": -1301.8733462897098
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.17719625695608557
+  },
+  "51": {
+    "id": "hair_spur_loc_demolition_site_4_8",
+    "a": {
+      "id": "hair_anchor_spur_loc_demolition_site_4_8",
+      "x": -520.986703278211,
+      "y": -1197.7052812666623
+    },
+    "bCoord": {
+      "x": -442.6061085939591,
+      "y": -1220.5877608810276
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.17476040115579963
+  },
+  "52": {
+    "id": "hair_spur_loc_construction_yard_5_9",
+    "a": {
+      "id": "hair_anchor_spur_loc_construction_yard_5_9",
+      "x": 1048.6209741927862,
+      "y": -2728.5188290285246
+    },
+    "bCoord": {
+      "x": 1144.9470308178988,
+      "y": -2833.256205534283
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.20429962319321932
+  },
+  "53": {
+    "id": "hair_spur_loc_construction_yard_6_10",
+    "a": {
+      "id": "hair_anchor_spur_loc_construction_yard_6_10",
+      "x": 1103.302705422655,
+      "y": -3554.200089373343
+    },
+    "bCoord": {
+      "x": 1289.401603972209,
+      "y": -3595.267419367999
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.1884527483023703
+  },
+  "54": {
+    "id": "hair_spur_loc_construction_yard_7_11",
+    "a": {
+      "id": "hair_anchor_spur_loc_construction_yard_7_11",
+      "x": 1400.325014615063,
+      "y": -2279.3248640616207
+    },
+    "bCoord": {
+      "x": 1483.7311134359388,
+      "y": -2360.193180043214
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.25175574943423273
+  },
+  "55": {
+    "id": "hair_spur_loc_the_reserve_8_12",
+    "a": {
+      "id": "hair_anchor_spur_loc_the_reserve_8_12",
+      "x": -604.7049890195199,
+      "y": -53.81032091184403
+    },
+    "bCoord": {
+      "x": -414.3578846997799,
+      "y": -120.39512063470316
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.11710518156178296
+  },
+  "56": {
+    "id": "hair_spur_loc_the_reserve_8_13",
+    "a": {
+      "id": "hair_anchor_spur_loc_the_reserve_8_13",
+      "x": -567.9347274312494,
+      "y": -26.005734019141983
+    },
+    "bCoord": {
+      "x": -461.7545607612378,
+      "y": -105.10525667115652
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.1869199736509472
+  },
+  "57": {
+    "id": "hair_spur_loc_reclaim_zone_9_14",
+    "a": {
+      "id": "hair_anchor_spur_loc_reclaim_zone_9_14",
+      "x": 1789.059772386211,
+      "y": -228.92906666759637
+    },
+    "bCoord": {
+      "x": 1794.0503540102086,
+      "y": -56.86561927878981
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.17233763090334833
+  },
+  "58": {
+    "id": "hair_spur_loc_reclaim_zone_9_15",
+    "a": {
+      "id": "hair_anchor_spur_loc_reclaim_zone_9_15",
+      "x": 1663.2737993090539,
+      "y": -129.53181132030534
+    },
+    "bCoord": {
+      "x": 1575.2496771619433,
+      "y": -170.0028941367309
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.104220236139372
+  },
+  "59": {
+    "id": "hair_spur_loc_reclaim_zone_10_16",
+    "a": {
+      "id": "hair_anchor_spur_loc_reclaim_zone_10_16",
+      "x": 1343.297919583003,
+      "y": 5.543659852753905
+    },
+    "bCoord": {
+      "x": 1339.086156600669,
+      "y": 122.40224931637741
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.26375186541117723
+  },
+  "64": {
+    "id": "hair_spur_loc_military_base_12_21",
+    "a": {
+      "id": "hair_anchor_spur_loc_military_base_12_21",
+      "x": -28.378912917434768,
+      "y": -404.44102227112165
+    },
+    "bCoord": {
+      "x": 168.86287488448352,
+      "y": -289.20268952885397
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.23495883210562168
+  },
+  
+  "66": {
+    "id": "hair_spur_loc_military_base_13_23",
+    "a": {
+      "id": "hair_anchor_spur_loc_military_base_13_23",
+      "x": 540.8856222715261,
+      "y": -279.416153284061
+    },
+    "bCoord": {
+      "x": 437.95611883722756,
+      "y": -427.1969913811315
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.1318442968185991
+  },
+  "67": {
+    "id": "hair_spur_loc_data_center_14_24",
+    "a": {
+      "id": "hair_anchor_spur_loc_data_center_14_24",
+      "x": -190.9035480356426,
+      "y": -647.8691343679179
+    },
+    "bCoord": {
+      "x": -262.31682631149835,
+      "y": -767.0708904091761
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.18972546947188673
+  },
+  "68": {
+    "id": "hair_spur_loc_data_center_14_25",
+    "a": {
+      "id": "hair_anchor_spur_loc_data_center_14_25",
+      "x": -228.72020607589687,
+      "y": -590.3330695155654
+    },
+    "bCoord": {
+      "x": -33.72123474865714,
+      "y": -567.9752454052914
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.26184052787721157
+  },
+  "69": {
+    "id": "hair_spur_loc_data_center_15_26",
+    "a": {
+      "id": "hair_anchor_spur_loc_data_center_15_26",
+      "x": -489.95558693029454,
+      "y": -399.53996286122435
+    },
+    "bCoord": {
+      "x": -547.6988275816707,
+      "y": -393.0634051466943
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.27127846982330084
+  },
+  "70": {
+    "id": "hair_spur_loc_data_center_15_27",
+    "a": {
+      "id": "hair_anchor_spur_loc_data_center_15_27",
+      "x": -501.1450911391929,
+      "y": -448.494701433787
+    },
+    "bCoord": {
+      "x": -707.7152470555513,
+      "y": -350.3455290915777
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.208519783616066
+  },
+  "71": {
+    "id": "hair_spur_loc_logging_camp_16_28",
+    "a": {
+      "id": "hair_anchor_spur_loc_logging_camp_16_28",
+      "x": 1438.6473117353687,
+      "y": 717.5305358359888
+    },
+    "bCoord": {
+      "x": 1461.6627714676322,
+      "y": 812.5216197731593
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.24650112502276897
+  },
+  "72": {
+    "id": "hair_spur_loc_logging_camp_16_29",
+    "a": {
+      "id": "hair_anchor_spur_loc_logging_camp_16_29",
+      "x": 1346.5173713716165,
+      "y": 928.1623478740271
+    },
+    "bCoord": {
+      "x": 1405.857481017235,
+      "y": 944.5728483944372
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.12148789083585143
+  },
+  "73": {
+    "id": "hair_spur_loc_logging_camp_16_30",
+    "a": {
+      "id": "hair_anchor_spur_loc_logging_camp_16_30",
+      "x": 1265.3045758384378,
+      "y": 1113.8348688404938
+    },
+    "bCoord": {
+      "x": 1174.3949910277686,
+      "y": 1018.4987065036054
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.2731470576953143
+  },
+  
+  "75": {
+    "id": "hair_spur_loc_open_meadow_18_32",
+    "a": {
+      "id": "hair_anchor_spur_loc_open_meadow_18_32",
+      "x": -617.4433310021758,
+      "y": 1155.9778439224672
+    },
+    "bCoord": {
+      "x": -613.9264755331947,
+      "y": 1322.3914752881378
+    },
+    "kind": "spur",
+    "style": "rough",
+    "widthScale": 0.2292214162647724
+  },
+  
+  "78": {
+    "id": "off_loc_logging_camp_1",
+    "a": "loc_logging_camp",
+    "bCoord": {
+      "x": 3719.8090358747677,
+      "y": 5480.404543748323
+    },
+    "kind": "secondary",
+    "style": "highway",
+    "freeway": false
+  },
+  "79": {
+    "id": "off_loc_construction_yard_2",
+    "a": "loc_construction_yard",
+    "bCoord": {
+      "x": 2211.2993589145844,
+      "y": -6243.554145819253
+    },
+    "kind": "secondary",
+    "style": "highway",
+    "freeway": false
+  },
+  "80": {
+    "id": "off_loc_data_center_3",
+    "a": "loc_data_center",
+    "bCoord": {
+      "x": -5474.595341554352,
+      "y": -3728.353399658383
+    },
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "81": {
+    "id": "off_loc_reclaim_zone_4",
+    "a": "loc_reclaim_zone",
+    "bCoord": {
+      "x": 6586.609616850974,
+      "y": 698.8468943331532
+    },
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "82": {
+    "id": "off_loc_military_base_5",
+    "a": "loc_military_base",
+    "bCoord": {
+      "x": 944.4101882691751,
+      "y": -6555.905934560548
+    },
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "83": {
+    "id": "off_loc_demolition_site_6",
+    "a": "loc_demolition_site",
+    "bCoord": {
+      "x": -2110.34289402319,
+      "y": -6278.396777534744
+    },
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "84": {
+    "id": "off_loc_open_meadow_7",
+    "a": "loc_open_meadow",
+    "bCoord": {
+      "x": -828.8949277709906,
+      "y": 6571.5102088658705
+    },
+    "kind": "secondary",
+    "style": "highway",
+    "freeway": false
+  },
+  "85": {
+    "id": "off_loc_fuel_depot_8",
+    "a": "loc_fuel_depot",
+    "bCoord": {
+      "x": 6233.3141585715875,
+      "y": -2240.0017471117776
+    },
+    "kind": "secondary",
+    "style": "highway",
+    "freeway": false
+  },
+  "86": {
+    "id": "off_loc_junkyard_9",
+    "a": "loc_junkyard",
+    "bCoord": {
+      "x": -4552.736406358181,
+      "y": 4810.863170028184
+    },
+    "kind": "arterial",
+    "style": "highway",
+    "freeway": false
+  },
+  "87": {
+    "id": "off_loc_the_reserve_10",
+    "a": "loc_the_reserve",
+    "bCoord": {
+      "x": -57.66488408730869,
+      "y": 6623.329071370079
+    },
+    "kind": "secondary",
+    "style": "highway",
+    "freeway": false
+  },
+  "88": {
+    "id": "off_loc_research_facility_11",
+    "a": "loc_research_facility",
+    "bCoord": {
+      "x": -6568.514475034562,
+      "y": 852.3091092873877
+    },
+    "kind": "secondary",
+    "style": "highway",
+    "freeway": false
+  }
+}

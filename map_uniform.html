@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>ZedCity Map</title>
+
+    <link rel="stylesheet" href="map.css" />
+  </head>
+  <body>
+    <div id="wrap">
+      <header>
+        <h1>ZedCity Map</h1>
+        <button id="fit" class="btn" title="Fit to view (F)">Fit</button>
+        <button id="export" class="btn" title="Export PNG (E)">Export</button>
+  <button id="exportRoads" class="btn" title="Export roads JSON">Export Roads</button>
+        <label
+          class="toggle"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 12px;
+            opacity: 0.85;
+          "
+        >
+          <input type="checkbox" id="autoFit" /> Auto fit
+        </label>
+        <label
+          class="toggle"
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 12px;
+            opacity: 0.85;
+          "
+        >
+          <input type="checkbox" id="toggleRoadIds" /> Show road #
+        </label>
+        <span class="hint"
+          >Drag to pan • Wheel/Pinch to zoom • Hover to inspect • Click to
+          pin</span
+        >
+      </header>
+      <canvas id="map"></canvas>
+    </div>
+    <div id="tooltip"></div>
+    <div id="sitePanel" style="display: none">
+      <div class="panel-header">
+        <div class="panel-title" id="sitePanelTitle"></div>
+        <button class="panel-close" id="closeSitePanel" title="Close">×</button>
+      </div>
+      <div class="panel-meta" id="sitePanelMeta"></div>
+      <div class="panel-body" id="sitePanelContent"></div>
+    </div>
+
+    <!-- Always-present fullscreen button at the bottom -->
+    <button id="fullscreenBtn" class="fullscreen-btn" type="button">
+      Fullscreen
+    </button>
+
+    <script>
+      // ======= INPUT JSON =======
+      // Example DATA
+      //const DATA = {
+      //  "loc_fuel_depot": {"codename":"loc_fuel_depot","name":"Fuel Depot","sites":{"fuel_depot_npc_1":"Fuel Depot NPC 1","fuel_depot_npc_2":"Fuel Depot NPC 2","fuel_depot_npc_3":"Fuel Depot NPC 3","room_secure_panel":"Secure Panel","job_fuel_depot_fuel_trader_1":"Fuel Trade 1","job_fuel_depot_fuel_trader_2":"Fuel Trade 2","job_fuel_depot_fuel_pumps":"Fuel Pumps"}},
+      //};
+      // ======= END INPUT =======
+
+      (async () => {
+        const locationsResp = await fetch("locations.json");
+        const DATA = await locationsResp.json();
+
+        // ===== Colors (Canvas only) =====
+        const css = getComputedStyle(document.documentElement);
+        const COLORS = {
+          bg: css.getPropertyValue("--bg").trim() || "#0e1116",
+          grid: css.getPropertyValue("--grid").trim() || "#141924",
+          road: css.getPropertyValue("--road").trim() || "#2a2f3a",
+          roadEdge: css.getPropertyValue("--road-edge").trim() || "#2a2f3a",
+          loc: css.getPropertyValue("--loc").trim() || "#0b1220",
+          site: css.getPropertyValue("--site").trim() || "#94a3b8",
+          label: css.getPropertyValue("--label").trim() || "#e2e8f0",
+          accent: css.getPropertyValue("--accent").trim() || "#f59e0b",
+          // Canvas-only shades
+          locFill: "#0b1220",
+          locFillHover: "#0f172a",
+          siteFill: "#0b0f18",
+          connector: "rgba(125, 211, 252, .55)",
+          buildingFill: css.getPropertyValue("--building-fill").trim() || "#0e1524",
+          buildingStroke: css.getPropertyValue("--building-stroke").trim() || "#1b2436",
+        };
+        // ===== Behavior (Canvas interactions) =====
+        const BEHAVIOR = {
+          // Show site squares only when zoomed in at or above this scale
+          sitesZoomThreshold: 0.7,
+          // New: render sites as tiles around a location on the map. Disabled in favor of list view.
+          showSiteTiles: false,
+          // Show numeric indices above each road
+          showRoadIds: false,
+        };
+
+        
+        const R_BASE = 1855,
+          R_JITTER = 1950;
+
+        // ===== Typography (Canvas only) =====
+        const TEXT = {
+          fontFamily: "Roboto, ui-sans-serif",
+          location: {
+            weight: 600,
+            size: 16,
+            color: null, // uses COLORS.label
+            paddingTop: 8,
+          },
+          site: {
+            weight: 500,
+            size: 12,
+            color: null, // uses COLORS.label
+            lineHeight: 12, // keep current appearance; adjust to 14 for roomier lines
+          },
+        };
+
+        // ===== Map generation parameters (tweak here) =====
+        const PARAMS = {
+          data: {
+            genRoads: false,
+            roadURL: "road.json",
+          },
+          spur: {
+            // How many locations produce spurs (ratio of baseCount) and cap
+            countRatio: 0.7,
+            countMax: 110,
+            // Spurs per selected location
+            perLocation: { base: 1, extraProb2: 0.45, extraProb3: 0.2 },
+            // Spur length in world units
+            length: { min: 140, max: 1250 },
+            // Visual thickness scaling for spurs (applied over computed width)
+            widthScale: { min: 0.1, max: 0.8 },
+            // Jaggedness controls for spur rendering
+            jagged: {
+              ampMultiplier: 0.3,   // multiply lateral noise amplitude
+              segDiv: 1170,           // smaller => more segments/curvier
+              freqBoost1: { min: 1, max: 5 },
+              freqBoost2: { min: 1, max: 6 },
+            },
+          },
+          hair: {
+            // Hairs per spur
+            perSpur: { base: 0.1, extraProb2: 0.6, extraProb3: 0.30 },
+            // Hair lengths in world units
+            length: { min: 50, max: 250 },
+            // Visual thickness scaling for hairs (applied over computed width)
+            widthScale: { min: 0.1, max: 0.3 },
+            // Branch angle relative to spur direction
+            angleOffsetRad: { min: Math.PI * 0.35, max: Math.PI * 0.8 },
+          },
+          buildings: {
+            enabled: true,
+            nearCityRadius: 2500,
+            includeKinds: ["primary", "arterial", "secondary"],
+            perRoad: { min: 50, max: 160 },
+            setback: { min: 50, max: 140 },
+            sizeTangential: { min: 10, max: 100 },
+            sizeNormal: { min: 10, max: 100 },
+            // Minimum world-units gap between buildings (beyond their half-diagonals)
+            minGap: 5,
+            // Inflate rectangle hitbox against other roads (world px)
+            roadInflatePx: 50,
+            // Optional explicit colors; if null, falls back to COLORS.buildingFill/Stroke
+            fillColor: null,
+            strokeColor: null,
+            fillOpacity: 1,
+            strokeOpacity: 1,
+          },
+          roads: {
+            width: {
+              base: { default: 5.5, primary: 7, arterial: 7.5, secondary: 5, spur: 3.5 },
+              highwayMultiplier: 1.15,
+              wideChance: 0.28,
+              wideRange: { min: 1.8, max: 2.7 },
+              normalRange: { min: 0.95, max: 1.4 },
+              edgeExtraPx: 4,
+            },
+            rough: {
+              ampBasePxByKind: { primary: 22, arterial: 30, secondary: 16, other: 10 },
+            },
+            highwayCurve: {
+              enabled: true,
+              pctRange: { min: 0.03, max: 0.07 },
+              minAmpPx: 32,
+              maxAmpPx: 90,
+              randomSign: true,
+            },
+            freeway: {
+              gapFactor: 0.45,
+              minGapPx: 7,
+              laneCoreFactor: 0.65,
+              minLaneCorePx: 3,
+              laneEdgeExtraPx: 3,
+              stripeDash: [14, 12],
+              stripeAlpha: 0.25,
+              stripeWidthFactor: 0.18,
+              stripeInsetFactor: 0.25,
+            },
+            centerStripe: {
+              dash: [14, 12],
+              alpha: 0.28,
+              widthFactor: 0.06,
+            },
+          },
+          ui: {
+            gridStep: 64,
+          },
+        };
+
+        /** Utility: PRNG with seed from string */
+        function hashStr(s) {
+          let h = 1779033703 ^ s.length;
+          for (let i = 0; i < s.length; i++) {
+            h = Math.imul(h ^ s.charCodeAt(i), 3432918353);
+            h = (h << 13) | (h >>> 19);
+          }
+          return h >>> 0;
+        }
+        function RNG(seed) {
+          let a = seed >>> 0;
+          return () => {
+            a |= 0;
+            a = (a + 0x6d2b79f5) | 0;
+            let t = Math.imul(a ^ (a >>> 15), 1 | a);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+
+        /** Canvas + viewport */
+        const canvas = document.getElementById("map");
+        const ctx = canvas.getContext("2d");
+        let DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        let W = 0,
+          H = 0;
+        let vw = { x: 0, y: 0, k: 1 };
+        function resize() {
+          const rect = canvas.getBoundingClientRect();
+          W = Math.floor(rect.width * DPR);
+          H = Math.floor(rect.height * DPR);
+          canvas.width = W;
+          canvas.height = H;
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.scale(DPR, DPR);
+          clampViewport();
+          draw();
+          // If auto-fit is enabled, keep the map centered on resize (no animation)
+          const autoFitEl = document.getElementById("autoFit");
+          if (autoFitEl && autoFitEl.checked) fitView({ animate: false });
+        }
+        // Resize listener is installed from mapEvents.mjs
+
+        /** Data → layout */
+        const locations = Object.values(DATA).map((loc) => ({
+          id: loc.codename || loc.id || loc.codename,
+          name: loc.name,
+          // Keep full site objects; derive a stable identifier in _id
+          sites: Object.entries(loc.sites || {}).map(([k, v]) => {
+            const siteObj =
+              v && typeof v === "object" ? v : { name: String(v) };
+            const _id = siteObj.codename || siteObj.id || k;
+            return { ...siteObj, _id };
+          }),
+        }));
+
+        // deterministic radial placement (outer ring only)
+        const rSeed = hashStr(locations.map((l) => l.id).join("|"));
+        const rand = RNG(rSeed);
+        
+        const baseCount = locations.length;
+        for (let i = 0; i < baseCount; i++) {
+          const l = locations[i];
+          const angle = (i / baseCount) * Math.PI * 2 + (rand() * 0.35 - 0.575);
+          const r = R_BASE + (rand() * 2 - 1) * R_JITTER;
+          l.x = Math.cos(angle) * r;
+          l.y = Math.sin(angle) * r;
+          l.size = 120;
+        }
+
+        // ===== Shared UI State (used by events and drawing) =====
+        const STATE = {
+          expandedLocId: null,
+          pinned: null,
+          filters: { npc: true, gate: true, scavenge: true },
+        };
+
+        // central city
+        const city = {
+          id: "loc_city",
+          name: "City",
+          sites: [{ id: "central_hub", name: "Central Hub" }],
+          x: 0,
+          y: 0,
+          size: 170,
+        };
+        locations.push(city);
+
+        // Roads: generate or fetch
+        async function generateRoads() {
+          const roads = [];
+          // Primary ring
+          for (let i = 0; i < baseCount; i++) {
+            const a = locations[i];
+            const b = locations[(i + 1) % baseCount];
+            roads.push({ a: a.id, b: b.id, kind: "primary" });
+          }
+          // Secondary random chords
+          for (let i = 0; i < baseCount; i++) {
+            const a = locations[i];
+            const b = locations[(i + 2 + Math.floor(rand() * 3)) % baseCount];
+            roads.push({ a: a.id, b: b.id, kind: "secondary" });
+          }
+          // Spokes to city
+          const spokeCount = Math.max(4, Math.min(6, Math.floor(baseCount / 2.5)));
+          const picked = new Set();
+          while (picked.size < spokeCount) picked.add(Math.floor(rand() * baseCount));
+          for (const idx of picked) roads.push({ a: "loc_city", b: locations[idx].id, kind: "arterial" });
+
+          // Assign styles
+          for (const r of roads) {
+            if (r.kind === "primary" || r.kind === "arterial") {
+              r.style = rand() < 0.85 ? "highway" : "rough";
+              const freewayChance = r.kind === "primary" ? 0.6 : 0.4;
+              r.freeway = r.style === "highway" && rand() < freewayChance;
+            } else if (r.kind === "secondary") {
+              r.style = rand() < 0.1 ? "highway" : "rough";
+              r.freeway = false;
+            }
+          }
+
+          // Spurs and hairs
+          const TAU = Math.PI * 2;
+          const spurTarget = Math.min(PARAMS.spur.countMax, Math.max(10, Math.round(baseCount * PARAMS.spur.countRatio)));
+          const spurPicked = new Set();
+          while (spurPicked.size < spurTarget) spurPicked.add(Math.floor(rand() * baseCount));
+          let spurSeq = 0;
+          const shortSpurs = [];
+          for (const idx of spurPicked) {
+            const l = locations[idx];
+            const spurCount = PARAMS.spur.perLocation.base + (rand() < PARAMS.spur.perLocation.extraProb2 ? 1 : 0) + (rand() < PARAMS.spur.perLocation.extraProb3 ? 1 : 0);
+            for (let c = 0; c < spurCount; c++) {
+              const angle = rand() * TAU;
+              const len = PARAMS.spur.length.min + rand() * (PARAMS.spur.length.max - PARAMS.spur.length.min);
+              const sx = l.x + Math.cos(angle) * len;
+              const sy = l.y + Math.sin(angle) * len;
+              const widthScale = PARAMS.spur.widthScale.min + rand() * (PARAMS.spur.widthScale.max - PARAMS.spur.widthScale.min);
+              const road = { id: `spur_${l.id}_${++spurSeq}`, a: l.id, bCoord: { x: sx, y: sy }, kind: "spur", style: "rough", widthScale };
+              roads.push(road);
+              shortSpurs.push({ aLoc: l, bx: sx, by: sy, id: road.id });
+            }
+          }
+          let hairSeq = 0;
+          for (const sp of shortSpurs) {
+            const ax = sp.aLoc.x, ay = sp.aLoc.y;
+            const dx = sp.bx - ax, dy = sp.by - ay;
+            const baseAng = Math.atan2(dy, dx);
+            const hairs = PARAMS.hair.perSpur.base + (rand() < PARAMS.hair.perSpur.extraProb2 ? 1 : 0) + (rand() < PARAMS.hair.perSpur.extraProb3 ? 1 : 0);
+            for (let h = 0; h < hairs; h++) {
+              const t = 0.2 + rand() * 0.65;
+              const axx = ax + dx * t;
+              const ayy = ay + dy * t;
+              const side = rand() < 0.5 ? -1 : 1;
+              const ang = baseAng + side * (PARAMS.hair.angleOffsetRad.min + rand() * (PARAMS.hair.angleOffsetRad.max - PARAMS.hair.angleOffsetRad.min));
+              const len = PARAMS.hair.length.min + rand() * (PARAMS.hair.length.max - PARAMS.hair.length.min);
+              const bx = axx + Math.cos(ang) * len;
+              const by = ayy + Math.sin(ang) * len;
+              const widthScale = PARAMS.hair.widthScale.min + rand() * (PARAMS.hair.widthScale.max - PARAMS.hair.widthScale.min);
+              roads.push({ id: `hair_${sp.id}_${++hairSeq}`, a: { id: `hair_anchor_${sp.id}_${hairSeq}`, x: axx, y: ayy }, bCoord: { x: bx, y: by }, kind: "spur", style: "rough", widthScale });
+            }
+          }
+
+          // Off-canvas spurs
+          if (locations.length) {
+            let maxR = 0;
+            for (const l of locations) maxR = Math.max(maxR, Math.hypot(l.x, l.y));
+            const offRadius = maxR + 2800 + rand() * 1200;
+            const idxs = Array.from({ length: baseCount }, (_, i) => i);
+            for (let i = idxs.length - 1; i > 0; i--) {
+              const j = Math.floor(rand() * (i + 1));
+              [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+            }
+            const target = Math.min(120, Math.max(12, Math.round(baseCount * 0.7)));
+            const chosen = idxs.slice(0, target);
+            let longSeq = 0;
+            for (const i of chosen) {
+              const l = locations[i];
+              if (!l || l.id === "loc_city") continue;
+              const baseAngle = Math.atan2(l.y, l.x);
+              const jitter = rand() * 0.34 - 0.17;
+              const ang = baseAngle + jitter;
+              const ex = Math.cos(ang) * offRadius;
+              const ey = Math.sin(ang) * offRadius;
+              const isArterial = rand() < 0.45;
+              roads.push({ id: `off_${l.id}_${++longSeq}`, a: l.id, bCoord: { x: ex, y: ey }, kind: isArterial ? "arterial" : "secondary", style: "highway", freeway: false });
+            }
+          }
+          return roads;
+        }
+
+        async function loadRoads() {
+          if (PARAMS?.data?.genRoads) {
+            return await generateRoads();
+          }
+          // Fetch from JSON object with numeric string keys
+          const url = PARAMS?.data?.roadURL || "road.json";
+          try {
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const obj = await resp.json();
+            const keys = Object.keys(obj).sort((a, b) => Number(a) - Number(b));
+            return keys.map((k) => obj[k]);
+          } catch (e) {
+            console.error("Failed to load roads JSON, falling back to generated:", e);
+            return await generateRoads();
+          }
+        }
+
+        let roads = await loadRoads();
+
+  // Generate simple "building" shapes around roads near the city
+  const buildings = [];
+  function addBuildings() {
+          if (!PARAMS?.buildings?.enabled) return;
+          const nearR = PARAMS.buildings.nearCityRadius;
+          const includeKinds = new Set(PARAMS.buildings.includeKinds || []);
+          const byId = Object.fromEntries(locations.map((l) => [l.id, l]));
+          let seq = 0;
+          const minGap = Math.max(0, PARAMS.buildings.minGap || 0);
+          function tooClose(cx, cy, w, h) {
+            // Treat buildings as circles using half-diagonal radius
+            const r = Math.hypot(w, h) / 2;
+            for (const b of buildings) {
+              const rb = Math.hypot(b.w, b.h) / 2;
+              if (Math.hypot(cx - b.cx, cy - b.cy) < r + rb + minGap) return true;
+            }
+            return false;
+          }
+          // Segment vs rectangle (AABB in local space) intersection helpers
+          function segIntersectsAABB(ax, ay, bx, by, hw, hh) {
+            // Quick accept if any endpoint inside
+            if (Math.abs(ax) <= hw && Math.abs(ay) <= hh) return true;
+            if (Math.abs(bx) <= hw && Math.abs(by) <= hh) return true;
+            // Check intersection with 4 edges
+            const edges = [
+              [-hw, -hh, hw, -hh],
+              [hw, -hh, hw, hh],
+              [hw, hh, -hw, hh],
+              [-hw, hh, -hw, -hh],
+            ];
+            for (const [x1, y1, x2, y2] of edges) {
+              if (segmentsIntersect(ax, ay, bx, by, x1, y1, x2, y2)) return true;
+            }
+            return false;
+          }
+          function segmentsIntersect(ax, ay, bx, by, cx, cy, dx, dy) {
+            const d1x = bx - ax, d1y = by - ay;
+            const d2x = dx - cx, d2y = dy - cy;
+            const denom = d1x * d2y + d1y * -d2x; // cross(d1, d2)
+            if (denom === 0) {
+              // Parallel; skip precise colinearity to keep it cheap
+              return false;
+            }
+            const s = ((cx - ax) * d2y + (cy - ay) * -d2x) / denom;
+            const t = ((cx - ax) * d1y + (cy - ay) * -d1x) / denom;
+            return s >= 0 && s <= 1 && t >= 0 && t <= 1;
+          }
+          function rectIntersectsAnyRoad(cx, cy, w, h, ang, excludeRoad) {
+            const cos = Math.cos(ang), sin = Math.sin(ang);
+            const hw = w / 2, hh = h / 2;
+            // Inflate rectangle by a conservative road thickness in world units
+            const inflate = PARAMS?.buildings?.roadInflatePx ?? 50; // configurable
+            const exHw = hw + inflate, exHh = hh + inflate;
+            const toLocal = (px, py) => {
+              const dx = px - cx, dy = py - cy;
+              return { x: cos * dx + sin * dy, y: -sin * dx + cos * dy };
+            };
+            for (const rd of roads) {
+              if (rd === excludeRoad) continue;
+              // Only consider significant roads to avoid trimming by tiny spurs
+              if (!includeKinds.has(rd.kind)) continue;
+              const a = typeof rd.a === 'string' ? byId[rd.a] : rd.a;
+              const b = rd.bCoord ? { x: rd.bCoord.x, y: rd.bCoord.y } : (typeof rd.b === 'string' ? byId[rd.b] : rd.b);
+              if (!a || !b) continue;
+              const A = toLocal(a.x, a.y);
+              const B = toLocal(b.x, b.y);
+              if (segIntersectsAABB(A.x, A.y, B.x, B.y, exHw, exHh)) return true;
+            }
+            return false;
+          }
+          for (const r of roads) {
+            if (!includeKinds.has(r.kind)) continue;
+            const a = typeof r.a === 'string' ? byId[r.a] : r.a;
+            const b = r.bCoord ? { x: r.bCoord.x, y: r.bCoord.y } : (typeof r.b === 'string' ? byId[r.b] : r.b);
+            if (!a || !b) continue;
+            const mx = (a.x + b.x) / 2;
+            const my = (a.y + b.y) / 2;
+            // near city center (0,0)
+            if (Math.hypot(mx, my) > nearR) continue;
+            // how many buildings along this road
+            const count = Math.floor(PARAMS.buildings.perRoad.min + rand() * (PARAMS.buildings.perRoad.max - PARAMS.buildings.perRoad.min + 1));
+            const dx = b.x - a.x, dy = b.y - a.y;
+            const len = Math.hypot(dx, dy) || 1;
+            const tx = dx / len, ty = dy / len; // tangent
+            const nx = -ty, ny = tx; // normal
+            for (let i = 0; i < count; i++) {
+              // place the building at a random t along the road, offset left/right by a setback
+              const t = 0.1 + rand() * 0.8;
+              const side = rand() < 0.5 ? -1 : 1;
+              const setback = PARAMS.buildings.setback.min + rand() * (PARAMS.buildings.setback.max - PARAMS.buildings.setback.min);
+              const baseCx = a.x + dx * t + nx * side * setback;
+              const baseCy = a.y + dy * t + ny * side * setback;
+              const baseW = PARAMS.buildings.sizeTangential.min + rand() * (PARAMS.buildings.sizeTangential.max - PARAMS.buildings.sizeTangential.min);
+              const baseH = PARAMS.buildings.sizeNormal.min + rand() * (PARAMS.buildings.sizeNormal.max - PARAMS.buildings.sizeNormal.min);
+              let ang = Math.atan2(ty, tx); // align long side along the road
+              // Iteratively adjust to avoid other roads and buildings
+              let cx = baseCx, cy = baseCy, w = baseW, h = baseH;
+              let ok = false;
+              for (let attempt = 0; attempt < 6; attempt++) {
+                const intersects = rectIntersectsAnyRoad(cx, cy, w, h, ang, r);
+                const closeToBldg = tooClose(cx, cy, w, h);
+                if (!intersects && !closeToBldg) { ok = true; break; }
+                // Adjust shape/position to better fit
+                if (attempt === 0) {
+                  h *= 0.85; // reduce depth first
+                } else if (attempt === 1) {
+                  w *= 0.85; // reduce length
+                } else if (attempt === 2) {
+                  // push further from road
+                  const more = setback * 0.35;
+                  cx = a.x + dx * t + nx * side * (setback + more);
+                  cy = a.y + dy * t + ny * side * (setback + more);
+                } else if (attempt === 3) {
+                  // rotate slightly but keep alignment generally following the road
+                  const jitter = (rand() * 0.2 - 0.1); // ±0.1 rad
+                  // Nudge angle a bit to avoid exact overlaps with crossing roads
+                  ang += jitter;
+                } else if (attempt === 4) {
+                  h *= 0.8; w *= 0.8;
+                } else {
+                  break; // give up
+                }
+              }
+              if (!ok) continue;
+              buildings.push({ id: `b_${++seq}`, cx, cy, w, h, ang });
+            }
+          }
+        }
+        // Build after roads are loaded
+        addBuildings();
+
+        /** Interaction */
+        // Animation utilities
+        let activeAnim = null;
+        function cancelAnim() {
+          if (activeAnim && activeAnim.raf) {
+            cancelAnimationFrame(activeAnim.raf);
+            activeAnim = null;
+          }
+        }
+        // Event listeners moved to mapEvents.mjs
+
+        // Fit view
+        function fitView(opts = {}) {
+          const animate = opts.animate !== undefined ? opts.animate : true;
+          const xs = locations.map((l) => l.x),
+            ys = locations.map((l) => l.y);
+          const minX = Math.min(...xs) - 240,
+            maxX = Math.max(...xs) + 240;
+          const minY = Math.min(...ys) - 240,
+            maxY = Math.max(...ys) + 240;
+          const vwW = canvas.clientWidth,
+            vwH = canvas.clientHeight;
+          const kx = vwW / (maxX - minX),
+            ky = vwH / (maxY - minY);
+          const cx = (minX + maxX) / 2;
+          const cy = (minY + maxY) / 2;
+          const targetK = Math.min(
+            1.8,
+            Math.max(0.35, 0.92 * Math.min(kx, ky))
+          );
+          const targetX = vwW / 2 - cx * targetK;
+          const targetY = vwH / 2 - cy * targetK;
+          const target = { x: targetX, y: targetY, k: targetK };
+
+          if (animate) {
+            animateViewportTo(target, 450);
+          } else {
+            vw.k = target.k;
+            vw.x = target.x;
+            vw.y = target.y;
+            clampViewport();
+            draw();
+          }
+        }
+        // Button and keyboard listeners moved to mapEvents.mjs
+
+        function animateViewportTo(target, duration = 450) {
+          cancelAnim();
+          const start = { x: vw.x, y: vw.y, k: vw.k };
+          const t0 = performance.now();
+          const ease = (t) =>
+            t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          function frame(now) {
+            const t = Math.min(1, (now - t0) / duration);
+            const e = ease(t);
+            vw.k = start.k + (target.k - start.k) * e;
+            vw.x = start.x + (target.x - start.x) * e;
+            vw.y = start.y + (target.y - start.y) * e;
+            clampViewport();
+            draw();
+            if (t < 1) {
+              activeAnim.raf = requestAnimationFrame(frame);
+            } else {
+              activeAnim = null;
+            }
+          }
+          activeAnim = { raf: requestAnimationFrame(frame) };
+        }
+
+        /** Drawing helpers */
+        function worldToScreen(x, y) {
+          return { x: x * vw.k + vw.x, y: y * vw.k + vw.y };
+        }
+        function screenToWorld(x, y) {
+          return { x: (x - vw.x) / vw.k, y: (y - vw.y) / vw.k };
+        }
+
+        // Keep the viewport within the bounds of the drawn content
+        function clampViewport() {
+          const cw = canvas.clientWidth;
+          const ch = canvas.clientHeight;
+          if (!cw || !ch) return;
+          const padPx = -250; // padding inside the canvas edge
+          const roadPadW = 0 / vw.k; // pad for thick road strokes in world units
+
+          let minX = Infinity,
+            minY = Infinity,
+            maxX = -Infinity,
+            maxY = -Infinity;
+          // Include location boxes (fixed CSS px -> convert to world units)
+          for (const l of locations) {
+            const half = l.size / 2 / vw.k + roadPadW;
+            minX = Math.min(minX, l.x - half);
+            maxX = Math.max(maxX, l.x + half);
+            minY = Math.min(minY, l.y - half);
+            maxY = Math.max(maxY, l.y + half);
+          }
+          // Include off-canvas spur endpoints
+          if (Array.isArray(roads) && roads.length) {
+            const byId = Object.fromEntries(locations.map((l) => [l.id, l]));
+            for (const r of roads) {
+              const a = typeof r.a === "string" ? byId[r.a] : r.a;
+              if (!a) continue;
+              if (r.bCoord) {
+                const bx = r.bCoord.x,
+                  by = r.bCoord.y;
+                minX = Math.min(minX, a.x - roadPadW, bx - roadPadW);
+                maxX = Math.max(maxX, a.x + roadPadW, bx + roadPadW);
+                minY = Math.min(minY, a.y - roadPadW, by - roadPadW);
+                maxY = Math.max(maxY, a.y + roadPadW, by + roadPadW);
+              }
+            }
+          }
+          if (
+            !isFinite(minX) ||
+            !isFinite(minY) ||
+            !isFinite(maxX) ||
+            !isFinite(maxY)
+          )
+            return;
+
+          const contentW = (maxX - minX) * vw.k;
+          const contentH = (maxY - minY) * vw.k;
+
+          // X-axis clamping/centering
+          if (contentW <= cw - padPx * 2) {
+            vw.x = (cw - contentW) / 2 - minX * vw.k;
+          } else {
+            const minSX = minX * vw.k + vw.x;
+            const maxSX = maxX * vw.k + vw.x;
+            if (minSX > padPx) vw.x = padPx - minX * vw.k;
+            if (maxSX < cw - padPx) vw.x = cw - padPx - maxX * vw.k;
+          }
+
+          // Y-axis clamping/centering
+          if (contentH <= ch - padPx * 2) {
+            vw.y = (ch - contentH) / 2 - minY * vw.k;
+          } else {
+            const minSY = minY * vw.k + vw.y;
+            const maxSY = maxY * vw.k + vw.y;
+            if (minSY > padPx) vw.y = padPx - minY * vw.k;
+            if (maxSY < ch - padPx) vw.y = ch - padPx - maxY * vw.k;
+          }
+        }
+
+        function drawGrid() {
+          const step = PARAMS?.ui?.gridStep ?? 64;
+          const { x: ox, y: oy } = screenToWorld(0, 0);
+          const { x: tx, y: ty } = screenToWorld(
+            canvas.clientWidth,
+            canvas.clientHeight
+          );
+          const startX = Math.floor(ox / step) * step;
+          const endX = Math.ceil(tx / step) * step;
+          const startY = Math.floor(oy / step) * step;
+          const endY = Math.ceil(ty / step) * step;
+          ctx.save();
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = COLORS.grid;
+          ctx.beginPath();
+          for (let x = startX; x <= endX; x += step) {
+            const p1 = worldToScreen(x, startY),
+              p2 = worldToScreen(x, endY);
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+          }
+          for (let y = startY; y <= endY; y += step) {
+            const p1 = worldToScreen(startX, y),
+              p2 = worldToScreen(endX, y);
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+          }
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // NEW: variable-style roads (highway vs rough), support free-end spurs
+  function drawRoad(a, b, kind, style = "rough", freeway = false) {
+          const seed = hashStr(a.id + ">" + b.id);
+          const r = RNG(seed);
+          // Base widths (in screen px) using stable seeded factor
+          const WCFG = PARAMS?.roads?.width || {};
+          const baseMap = WCFG.base || {};
+          let base = baseMap.default ?? 5.5;
+          if (kind === "primary") base = baseMap.primary ?? base;
+          else if (kind === "arterial") base = baseMap.arterial ?? base;
+          else if (kind === "secondary") base = baseMap.secondary ?? base;
+          else if (kind === "spur") base = baseMap.spur ?? base;
+          // Highways tend to be wider
+          if (style === "highway") base *= (WCFG.highwayMultiplier ?? 1.15);
+          const wideChance = WCFG.wideChance ?? 0.28;
+          const wideMin = WCFG.wideRange?.min ?? 1.8;
+          const wideMax = WCFG.wideRange?.max ?? 2.7;
+          const normMin = WCFG.normalRange?.min ?? 0.95;
+          const normMax = WCFG.normalRange?.max ?? 1.4;
+          let factor = r() < wideChance ? wideMin + r() * (wideMax - wideMin) : normMin + r() * (normMax - normMin);
+          // Vary width for spurs/hairs using per-road widthScale if present
+          if (kind === 'spur' && b && typeof b === 'object' && 'widthScale' in b) {
+            factor *= Number(b.widthScale) || 1;
+          }
+          if (kind === 'spur' && a && typeof a === 'object' && 'widthScale' in a) {
+            factor *= Number(a.widthScale) || 1;
+          }
+          const coreW = base * factor;
+          const edgeW = coreW + (WCFG.edgeExtraPx ?? 4);
+
+          // Compute world direction and world distance (zoom-invariant)
+          const dxw = b.x - a.x;
+          const dyw = b.y - a.y;
+          const distW = Math.hypot(dxw, dyw) || 1;
+
+          // Screen-space tangent and normal for applying pixel offsets
+          const A = worldToScreen(a.x, a.y);
+          const B = worldToScreen(b.x, b.y);
+          const dxs = B.x - A.x;
+          const dys = B.y - A.y;
+          const distS = Math.hypot(dxs, dys) || 1;
+          const nx = -dys / distS,
+            ny = dxs / distS; // unit normal in screen px
+
+          // Stable, seed-based continuous noise parameters (independent of segment count)
+          const TAU_local = Math.PI * 2;
+          let f1 = 2 + Math.floor(r() * 2); // 2..3
+          let f2 = 5 + Math.floor(r() * 3); // 5..7
+          const p1 = r() * TAU_local;
+          const p2 = r() * TAU_local;
+          const mix1 = 0.7,
+            mix2 = 0.3;
+          const RCFG = PARAMS?.roads?.rough || {};
+          const ampMap = RCFG.ampBasePxByKind || {};
+          const ampBasePx = kind === "primary" ? (ampMap.primary ?? 22)
+                            : kind === "arterial" ? (ampMap.arterial ?? 30)
+                            : kind === "secondary" ? (ampMap.secondary ?? 16)
+                            : (ampMap.other ?? 10);
+          let ampPx = ampBasePx * (0.6 + 0.8 * r()); // one-time seeded scale
+          if (style === "highway") ampPx = 0; // highways use smooth curve below
+          // Make spurs rougher and more jagged
+          if (kind === "spur" && style !== "highway") {
+            const jb = PARAMS?.spur?.jagged;
+            const fb1min = jb?.freqBoost1?.min ?? 2;
+            const fb1max = jb?.freqBoost1?.max ?? 3;
+            const fb2min = jb?.freqBoost2?.min ?? 4;
+            const fb2max = jb?.freqBoost2?.max ?? 6;
+            f1 += fb1min + Math.floor(r() * (fb1max - fb1min + 1));
+            f2 += fb2min + Math.floor(r() * (fb2max - fb2min + 1));
+            const ampMul = jb?.ampMultiplier ?? 1.8;
+            ampPx *= ampMul; // bigger lateral wiggle
+          }
+          const isHighway = style === "highway";
+          // For highways: use a single smooth long curve instead of jagged noise
+          // Compute a gently varying curvature amplitude based on length (screen px)
+          const HCFG = PARAMS?.roads?.highwayCurve || {};
+          const curveSign = (HCFG.randomSign ?? true) && r() < 0.5 ? -1 : 1;
+          const pctMin = HCFG.pctRange?.min ?? 0.03;
+          const pctMax = HCFG.pctRange?.max ?? 0.07;
+          const curvePct = pctMin + r() * (pctMax - pctMin);
+          const minAmp = HCFG.minAmpPx ?? 16;
+          const maxAmp = HCFG.maxAmpPx ?? 90;
+          const highwayCurveAmp = isHighway && (HCFG.enabled ?? true) ? Math.min(maxAmp, Math.max(minAmp, distS * curvePct)) * curveSign : 0;
+          const noise = (t) =>
+            isHighway
+              ? 0
+              : Math.sin(t * TAU_local * f1 + p1) * mix1 +
+                Math.sin(t * TAU_local * f2 + p2) * mix2;
+
+          // Segment count based on world distance (stable across zoom)
+          const segDiv = kind === "spur" && style !== "highway" ? (PARAMS?.spur?.jagged?.segDiv ?? 70) : 120;
+          const segments = Math.max(6, Math.floor(distW / segDiv));
+          const pts = [];
+          for (let i = 0; i <= segments; i++) {
+            const t = i / segments;
+            // Base point along the (screen) straight line
+            const x = A.x + dxs * t;
+            const y = A.y + dys * t;
+            // Screen-space offset using stable noise
+            const n = noise(t);
+            // Highways: add a smooth bell-shaped offset along the normal
+            const bell = Math.sin(Math.PI * t); // 0..1..0
+            const curve = isHighway ? highwayCurveAmp * bell : 0;
+            const total = ampPx * n + curve;
+            const ox = nx * total;
+            const oy = ny * total;
+            pts.push({ x: x + ox, y: y + oy });
+          }
+
+          ctx.save();
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+          if (freeway && kind !== "spur") {
+            // Dual carriageway: draw two parallel roads offset by normal
+            const FCFG = PARAMS?.roads?.freeway || {};
+            const gap = Math.max(FCFG.minGapPx ?? 7, coreW * (FCFG.gapFactor ?? 0.45)); // half gap per side
+            // Offset following the curved centerline using local normals per vertex
+            const mkOffsetPtsVar = (arr, off) => {
+              const out = new Array(arr.length);
+              for (let i = 0; i < arr.length; i++) {
+                const p = arr[i];
+                const p0 = arr[Math.max(0, i - 1)];
+                const p1 = arr[Math.min(arr.length - 1, i + 1)];
+                const tx = p1.x - p0.x;
+                const ty = p1.y - p0.y;
+                const d = Math.hypot(tx, ty) || 1;
+                const nnx = -ty / d, nny = tx / d;
+                out[i] = { x: p.x + nnx * off, y: p.y + nny * off };
+              }
+              return out;
+            };
+            const left = mkOffsetPtsVar(pts, -gap);
+            const right = mkOffsetPtsVar(pts, gap);
+
+            const laneCore = Math.max(FCFG.minLaneCorePx ?? 3, coreW * (FCFG.laneCoreFactor ?? 0.65));
+            const laneEdge = laneCore + (FCFG.laneEdgeExtraPx ?? 3);
+
+            const strokePath = (arr, color, lw, dashed = false) => {
+              ctx.strokeStyle = color;
+              ctx.lineWidth = lw;
+              if (dashed) ctx.setLineDash([14, 12]);
+              else ctx.setLineDash([]);
+              ctx.beginPath();
+              ctx.moveTo(arr[0].x, arr[0].y);
+              for (let i = 1; i < arr.length; i++)
+                ctx.lineTo(arr[i].x, arr[i].y);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            };
+
+            // Edges
+            strokePath(left, COLORS.roadEdge, laneEdge);
+            strokePath(right, COLORS.roadEdge, laneEdge);
+            // Cores
+            strokePath(left, COLORS.road, laneCore);
+            strokePath(right, COLORS.road, laneCore);
+            // Lane dashed stripes on each carriageway
+            // Center stripes inside each carriageway along the curved normals
+            const inset = Math.max(1, laneCore * (FCFG.stripeInsetFactor ?? 0.25));
+            const leftStripe = mkOffsetPtsVar(pts, -gap + inset);
+            const rightStripe = mkOffsetPtsVar(pts, gap - inset);
+            strokePath(
+              leftStripe,
+              `rgba(255,255,255,${(FCFG.stripeAlpha ?? 0.25)})`,
+              Math.max(1, laneCore * (FCFG.stripeWidthFactor ?? 0.18)),
+              true
+            );
+            strokePath(
+              rightStripe,
+              `rgba(255,255,255,${(FCFG.stripeAlpha ?? 0.25)})`,
+              Math.max(1, laneCore * (FCFG.stripeWidthFactor ?? 0.18)),
+              true
+            );
+          } else {
+            // Single carriageway
+            // edge
+            ctx.strokeStyle = COLORS.roadEdge;
+            ctx.lineWidth = edgeW;
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.stroke();
+            // core
+            ctx.strokeStyle = COLORS.road;
+            ctx.lineWidth = coreW;
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.stroke();
+            // Striped center line for roads (more visible than before)
+            if (kind !== "spur") {
+              const CCFG = PARAMS?.roads?.centerStripe || {};
+              ctx.strokeStyle = `rgba(255,255,255,${(CCFG.alpha ?? 0.28)})`;
+              ctx.lineWidth = Math.max(1, coreW * (CCFG.widthFactor ?? 0.18));
+              ctx.setLineDash((CCFG.dash ?? [14, 12]));
+              ctx.beginPath();
+              ctx.moveTo(pts[0].x, pts[0].y);
+              for (let i = 1; i < pts.length; i++)
+                ctx.lineTo(pts[i].x, pts[i].y);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
+          }
+          ctx.restore();
+        }
+
+        function drawLocation(l, hovered) {
+          const s = l.size*0.5;
+          const P = worldToScreen(l.x, l.y);
+          const top = P.y - s / 2;
+          ctx.save();
+          // Circle that matches the theme (fill + stroke)
+          ctx.fillStyle = hovered ? COLORS.locFillHover : COLORS.locFill;
+          ctx.strokeStyle = hovered ? COLORS.accent : COLORS.loc;
+          ctx.lineWidth = hovered ? 2.2 : 1.6;
+          ctx.beginPath();
+          ctx.arc(P.x, P.y, s / 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          // Keep location titles where they are (aligned to prior top)
+          ctx.fillStyle = COLORS.label;
+          ctx.font = `${TEXT.location.weight} ${TEXT.location.size}px ${TEXT.fontFamily}`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          ctx.fillText(l.name, P.x, top + TEXT.location.paddingTop);
+
+          const sitesLen = l.sites.length;
+          const showSites =
+            BEHAVIOR.showSiteTiles &&
+            sitesLen > 0 &&
+            STATE.expandedLocId === l.id &&
+            vw.k >= BEHAVIOR.sitesZoomThreshold;
+          if (showSites) {
+            const ring = s * 0.55;
+            const step = (Math.PI * 2) / sitesLen;
+
+            //All the sites
+            l.sites.forEach((site, idx) => {
+              if (!isSiteTypeEnabled(site)) return;
+              const a = idx * step - Math.PI / 2;
+              const rx = l.x + Math.cos(a) * ring;
+              const ry = l.y + Math.sin(a) * ring;
+              const sp = worldToScreen(rx, ry);
+              const box = 64;
+              const rr = 8;
+              ctx.save();
+              ctx.globalAlpha = 0.95;
+              ctx.fillStyle = COLORS.siteFill;
+              ctx.strokeStyle = hovered ? COLORS.accent : COLORS.site;
+              ctx.lineWidth = 1.2;
+              roundRect(
+                sp.x - box / 2,
+                sp.y - box / 2,
+                box,
+                box,
+                rr,
+                true,
+                true
+              );
+              ctx.fillStyle = COLORS.label;
+              ctx.font = `${TEXT.site.weight} ${TEXT.site.size}px ${TEXT.fontFamily}`;
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              const siteLabel = site.name ?? String(site._id ?? site.id ?? "");
+              wrapText(
+                siteLabel,
+                sp.x,
+                sp.y,
+                box - 10,
+                TEXT.site.lineHeight,
+                TEXT.site.size
+              );
+              // Zone badge at bottom of site tile
+              const zone = getSiteZone(site);
+              if (zone) {
+                const label = `Zone ${zone}`;
+                const badgeFontSize = Math.max(
+                  8,
+                  Math.round(TEXT.site.size * 0.8)
+                );
+                ctx.font = `${TEXT.site.weight} ${badgeFontSize}px ${TEXT.fontFamily}`;
+                const paddingX = 6,
+                  paddingY = 2;
+                const tw = ctx.measureText(label).width;
+                const hLabel = badgeFontSize + paddingY * 2;
+                const wLabel = tw + paddingX * 2;
+                const bx = sp.x - wLabel / 2;
+                const by = sp.y + box / 2 - hLabel - 4;
+                ctx.save();
+                ctx.fillStyle = COLORS.siteFill;
+                ctx.globalAlpha = 0.9;
+                roundRect(bx, by, wLabel, hLabel, 6, true, false);
+                ctx.globalAlpha = 1;
+                ctx.fillStyle = COLORS.label;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(label, sp.x, by + hLabel / 2);
+                ctx.restore();
+              }
+              ctx.restore();
+
+              // connectors
+              const rx2 = l.x + Math.cos(a) * (s * 0.35);
+              const ry2 = l.y + Math.sin(a) * (s * 0.35);
+              const p1 = worldToScreen(rx2, ry2),
+                p2 = worldToScreen(
+                  l.x + Math.cos(a) * (s * 0.55),
+                  l.y + Math.sin(a) * (s * 0.55)
+                );
+              ctx.save();
+              ctx.strokeStyle = COLORS.connector;
+              ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+              ctx.restore();
+            });
+          }
+          ctx.restore();
+        }
+
+        function roundRect(x, y, w, h, r, fill, stroke) {
+          const rr = Math.min(r, w / 2, h / 2);
+          ctx.beginPath();
+          ctx.moveTo(x + rr, y);
+          ctx.arcTo(x + w, y, x + w, y + h, rr);
+          ctx.arcTo(x + w, y + h, x, y + h, rr);
+          ctx.arcTo(x, y + h, x, y, rr);
+          ctx.arcTo(x, y, x + w, y, rr);
+          if (fill) ctx.fill();
+          if (stroke) ctx.stroke();
+        }
+
+        function wrapText(text, x, y, maxWidth, lineHeight, fontSize) {
+          const words = text.split(" ");
+          let line = "",
+            lines = [];
+          for (let n = 0; n < words.length; n++) {
+            const test = line + words[n] + " ";
+            const w = ctx.measureText(test).width;
+            if (w > maxWidth && n > 0) {
+              lines.push(line.trim());
+              line = words[n] + " ";
+            } else line = test;
+          }
+          lines.push(line.trim());
+          const total = lines.length * lineHeight;
+          let sy = y - total / 2 + fontSize / 2;
+          lines.forEach((ln) => {
+            ctx.fillText(ln, x, sy);
+            sy += lineHeight;
+          });
+        }
+
+        // Extract trailing zone number from site.items.vars.location like "loc_the_reserve_1"
+        function getSiteZone(site) {
+          const locStr =
+            site?.items?.vars?.location ||
+            site?.location ||
+            site?.vars?.location ||
+            "";
+          const m = /_(\d+)$/.exec(String(locStr));
+          return m ? m[1] : null;
+        }
+
+        /** Hit testing + tooltip */
+        function hitTest(px, py) {
+          const rect = canvas.getBoundingClientRect();
+          // Convert from window coords to canvas-local CSS pixels
+          const localX = px - rect.left;
+          const localY = py - rect.top;
+          const w = screenToWorld(localX, localY);
+          // Pass 1: sites first (global priority)
+          if (BEHAVIOR.showSiteTiles)
+            for (const l of locations) {
+              const sitesLen = l.sites.length;
+              const sitesVisible =
+                sitesLen > 0 &&
+                STATE.expandedLocId === l.id &&
+                vw.k >= BEHAVIOR.sitesZoomThreshold;
+              if (!sitesVisible) continue;
+              const ring = l.size * 0.55;
+              const step = (Math.PI * 2) / sitesLen;
+              const halfWorld = 64 / 2 / vw.k; // 64px box => convert to world units
+              for (let i = 0; i < sitesLen; i++) {
+                const a = i * step - Math.PI / 2;
+                const rx = l.x + Math.cos(a) * ring;
+                const ry = l.y + Math.sin(a) * ring;
+                if (
+                  Math.abs(w.x - rx) <= halfWorld &&
+                  Math.abs(w.y - ry) <= halfWorld
+                ) {
+                  const site = l.sites[i];
+                  if (!isSiteTypeEnabled(site)) continue;
+                  return { type: "site", data: { loc: l, site } };
+                }
+              }
+            }
+          // Pass 2: locations (screen-space circular hit test; drawn in fixed CSS px)
+          for (const l of locations) {
+            const p = worldToScreen(l.x, l.y);
+            const dx = localX - p.x;
+            const dy = localY - p.y;
+            if (dx * dx + dy * dy <= (l.size / 2) * (l.size / 2)) {
+              return { type: "loc", data: l };
+            }
+          }
+          return null;
+        }
+
+        const tooltip = document.getElementById("tooltip");
+        function hoverAt(sx, sy) {
+          const hit = hitTest(sx, sy) || STATE.pinned;
+          tooltip.style.left = sx + "px";
+          tooltip.style.top = sy + "px";
+          if (hit) {
+            tooltip.style.opacity = 1;
+            tooltip.innerHTML =
+              hit.type === "loc"
+                ? `<strong>${hit.data.name}</strong><div style="opacity:.7">${hit.data.id}</div>`
+                : (() => {
+                    const s = hit.data.site;
+                    const sid = s && (s._id ?? s.id ?? "");
+                    const sname = s && (s.name ?? String(sid));
+                    return `<strong>${sname}</strong><div style="opacity:.7">${hit.data.loc.name}</div><div style="opacity:.55">${sid}</div>`;
+                  })();
+          } else {
+            tooltip.style.opacity = 0;
+            tooltip.innerHTML = "";
+          }
+          draw(hit);
+        }
+        // Click/tap handling moved to mapEvents.mjs
+
+        // Site details panel helpers
+        const sitePanel = document.getElementById("sitePanel");
+        const sitePanelTitle = document.getElementById("sitePanelTitle");
+        const sitePanelMeta = document.getElementById("sitePanelMeta");
+        const sitePanelContent = document.getElementById("sitePanelContent");
+        // Data helpers for Requirements and Rewards
+        function normalizeItems(val) {
+          if (!val) return [];
+          if (Array.isArray(val)) return val;
+          if (typeof val === "object") {
+            const out = [];
+            for (const [key, v] of Object.entries(val)) {
+              if (Array.isArray(v)) {
+                for (const e of v) {
+                  if (e && typeof e === "object") out.push({ key, ...e });
+                  else out.push({ key, name: String(e) });
+                }
+              } else if (v && typeof v === "object") {
+                out.push({ key, ...v });
+              } else {
+                out.push({ key, name: String(v) });
+              }
+            }
+            return out;
+          }
+          return [];
+        }
+        function getRequirements(site) {
+          // Prefer site.vars.items; fall back to other common shapes
+          return normalizeItems(
+            site?.vars?.items ??
+              site?.requirements ??
+              site?.reqs ??
+              site?.items?.vars?.requirements
+          );
+        }
+        function getRewards(site) {
+          // Prefer vars.rewards (esp. for scavenge), then items.vars.rewards; fall back to site.rewards/loot
+          return normalizeItems(
+            site?.vars?.rewards ??
+              site?.items?.vars?.rewards ??
+              site?.rewards ??
+              site?.loot
+          );
+        }
+        function getNPCSpawnCodenames(site) {
+          const src =
+            site?.vars?.npcs ??
+            site?.vars?.npc ??
+            site?.npcs ??
+            site?.spawns ??
+            site?.spawn ??
+            site?.items?.vars?.npcs ??
+            site?.items?.vars?.spawn;
+          const out = [];
+          if (!src) return out;
+          const pushName = (v, key) => {
+            if (v == null) return;
+            if (typeof v === "string") {
+              out.push(v);
+              return;
+            }
+            if (typeof v === "object") {
+              const name = v.codename ?? v.codeName ?? v.id ?? v.name ?? key;
+              if (name) out.push(String(name));
+            }
+          };
+          if (Array.isArray(src)) {
+            for (const e of src) pushName(e);
+          } else if (typeof src === "object") {
+            for (const [k, v] of Object.entries(src)) {
+              if (Array.isArray(v)) {
+                for (const e of v) pushName(e, k);
+              } else pushName(v, k);
+            }
+          } else if (typeof src === "string") {
+            out.push(src);
+          }
+          // unique + tidy
+          return Array.from(
+            new Set(out.map((s) => String(s).trim()).filter(Boolean))
+          );
+        }
+        function formatCodenameTitle(s) {
+          if (s == null) return "";
+          return String(s)
+            .replace(/_/g, " ")
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((w) => {
+              const lw = w.toLowerCase();
+              return lw.charAt(0).toUpperCase() + lw.slice(1);
+            })
+            .join(" ");
+        }
+        function renderNPCSpawnsSection(site) {
+          const spawns = getNPCSpawnCodenames(site);
+          if (!spawns.length) return "";
+          return `
+            <div class="section">
+              <div class="subhead">NPC Spawns</div>
+              <div>${spawns
+                .map((n) => renderBadge(formatCodenameTitle(n), "info"))
+                .join(" ")}</div>
+            </div>
+          `;
+        }
+        function renderItemRow(item) {
+          const name =
+            item.name ??
+            item.codename ??
+            item.item ??
+            item.id ??
+            item.key ??
+            item.type ??
+            (item.key || "");
+          const qty = item.quantity ?? item.count ?? item.qty ?? "";
+          const pieces = [];
+          const note = item.note ?? item.desc ?? item.description;
+          if (note) pieces.push(String(note));
+          const chance = item.chance ?? item.probability ?? item.prob;
+          if (chance !== undefined)
+            pieces.push(
+              `${Math.round(Number(chance) * 100) / 100}${
+                String(chance).includes("%") ? "" : "%"
+              } chance`.replace("% chance", "% chance")
+            );
+          if (item.weight !== undefined) pieces.push(`w: ${item.weight}`);
+          if (item.rarity !== undefined) pieces.push(`rarity: ${item.rarity}`);
+          const extra = pieces.join(" • ");
+          return `<div class="row"><span class="k">${name || "(item)"}${
+            qty !== "" ? ` × ${qty}` : ""
+          }</span><span class="v">${extra}</span></div>`;
+        }
+        function renderItemsSection(title, items) {
+          const arr = normalizeItems(items);
+          if (!arr.length) return "";
+          return `
+            <div class="section">
+              <div class="subhead">${title}</div>
+              <div class="grid">${arr.map(renderItemRow).join("")}</div>
+            </div>
+          `;
+        }
+        function classifySite(site) {
+          // Prefer explicit site.type values
+          const t = String(site?.type ?? "").toLowerCase();
+          if (t === "room_npc") return "npc";
+          if (t === "room_scavenge") return "scavenge";
+          if (t === "room_gates") return "gate";
+          // Minimal fallback by id/name if type is missing
+          const id = String(site?._id ?? site?.id ?? "").toLowerCase();
+          const name = String(site?.name ?? "").toLowerCase();
+          if (id.includes("npc") || name.includes("npc")) return "npc";
+          if (
+            id.includes("scavenge") ||
+            id.includes("loot") ||
+            name.includes("scavenge") ||
+            name.includes("loot")
+          )
+            return "scavenge";
+          if (id.includes("gate") || id.includes("door")) return "gate";
+          return "unknown";
+        }
+
+        function renderRow(key, val) {
+          return `<div class="row"><span class="k">${key}</span><span class="v">${val}</span></div>`;
+        }
+        function isSiteTypeEnabled(site) {
+          const t = classifySite(site);
+          if (t === "npc") return !!STATE.filters.npc;
+          if (t === "gate") return !!STATE.filters.gate;
+          if (t === "scavenge") return !!STATE.filters.scavenge;
+          return true; // unknown types unaffected
+        }
+        function renderBadge(text, tone = "info") {
+          return `<span class="badge ${tone}">${text}</span>`;
+        }
+        function renderNPC(site) {
+          const role = site.role || site.npcRole || site.type || "NPC";
+          const faction = site.faction || site.team || "";
+          const zone = getSiteZone(site) || "";
+          return `
+            <div class="section">
+              ${renderBadge(role, "accent")} ${
+            zone ? renderBadge("Zone " + zone, "muted") : ""
+          }
+            </div>
+            <div class="grid">
+              ${faction ? renderRow("Faction", faction) : ""}
+              ${site.level ? renderRow("Level", site.level) : ""}
+              ${site.health ? renderRow("Health", site.health) : ""}
+            </div>
+            ${renderNPCSpawnsSection(site)}
+            ${renderItemsSection("Requirements", getRequirements(site))}
+            ${renderItemsSection("Rewards", getRewards(site))}
+            ${
+              site.desc || site.description
+                ? `<div class="section">${site.desc ?? site.description}</div>`
+                : ""
+            }
+          `;
+        }
+        function renderScavenge(site) {
+          const zone = getSiteZone(site) || "";
+          const rarity = site.rarity || site.quality || "";
+          const cooldown = site.cooldown || site.respawn || "";
+          return `
+            <div class="section">
+              ${renderBadge("Scavenge", "accent")} ${
+            zone ? renderBadge("Zone " + zone, "muted") : ""
+          } ${rarity ? renderBadge(rarity, "info") : ""}
+            </div>
+            <div class="grid">
+              ${site.resource ? renderRow("Resource", site.resource) : ""}
+              ${site.quantity ? renderRow("Quantity", site.quantity) : ""}
+              ${cooldown ? renderRow("Cooldown", cooldown) : ""}
+            </div>
+            ${renderItemsSection("Requirements", getRequirements(site))}
+            ${renderItemsSection("Rewards", getRewards(site))}
+            ${
+              site.hint || site.description
+                ? `<div class="section">${site.hint ?? site.description}</div>`
+                : ""
+            }
+          `;
+        }
+        function renderGate(site) {
+          const zone = getSiteZone(site) || "";
+          const locked = site.locked ?? site.requiresKey ?? false;
+          const key = site.key || site.requiredItem || "";
+          const to = site.to || site.destination || "";
+          return `
+            <div class="section">
+              ${renderBadge("Gate", "accent")} ${
+            zone ? renderBadge("Zone " + zone, "muted") : ""
+          } ${
+            locked
+              ? renderBadge("Locked", "warn")
+              : renderBadge("Locked", "warn")
+          }
+            </div>
+            <div class="grid">
+              ${key ? renderRow("Key", key) : ""}
+              ${to ? renderRow("Destination", to) : ""}
+            </div>
+            ${renderItemsSection("Requirements", getRequirements(site))}
+            ${renderItemsSection("Rewards", getRewards(site))}
+            ${
+              site.note || site.description
+                ? `<div class="section">${site.note ?? site.description}</div>`
+                : ""
+            }
+          `;
+        }
+        function showSiteDetails({ loc, site }) {
+          if (!sitePanel) return;
+          const title = site?.name ?? String(site?._id ?? site?.id ?? "");
+          const sid = site?._id ?? site?.id ?? "";
+          sitePanelTitle.textContent = title || "(Unnamed site)";
+          sitePanelMeta.textContent = `${loc?.name ?? ""}${
+            sid ? " • " + sid : ""
+          }`.trim();
+          const type = classifySite(site);
+          let html = "";
+          if (type === "npc") html = renderNPC(site);
+          else if (type === "scavenge") html = renderScavenge(site);
+          else if (type === "gate") html = renderGate(site);
+          else
+            html = `<pre class="code">${(() => {
+              try {
+                return JSON.stringify(site ?? {}, null, 2);
+              } catch {
+                return String(site);
+              }
+            })()}</pre>`;
+          sitePanelContent.innerHTML = html;
+          sitePanel.style.display = "block";
+        }
+        function hideSiteDetails() {
+          if (!sitePanel) return;
+          sitePanel.style.display = "none";
+        }
+        document
+          .getElementById("closeSitePanel")
+          ?.addEventListener("click", hideSiteDetails);
+
+        // New: Location sites panel (grouped by zone)
+        let currentLocationForPanel = null;
+        function groupSitesByZone(loc) {
+          const groups = new Map();
+          for (const s of loc.sites) {
+            if (!isSiteTypeEnabled(s)) continue;
+            const z = getSiteZone(s);
+            const key = z != null ? String(z) : "unknown";
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(s);
+          }
+          // Sort zone keys numerically, unknown last
+          const keys = Array.from(groups.keys()).sort((a, b) => {
+            if (a === "unknown") return 1;
+            if (b === "unknown") return -1;
+            return Number(a) - Number(b);
+          });
+          // Sort sites within each zone: non-gates first, then gates; name as tiebreaker
+          for (const k of keys) {
+            groups.get(k).sort((a, b) => {
+              const ta = classifySite(a);
+              const tb = classifySite(b);
+              const aIsGate = ta === "gate";
+              const bIsGate = tb === "gate";
+              if (aIsGate !== bIsGate) return aIsGate ? 1 : -1; // gates to bottom
+              const an = String(a.name || a._id || "");
+              const bn = String(b.name || b._id || "");
+              return an.localeCompare(bn);
+            });
+          }
+          return { keys, groups };
+        }
+        function showLocationSites(loc) {
+          if (!sitePanel) return;
+          if (loc) currentLocationForPanel = loc;
+          if (!currentLocationForPanel) return;
+          const theLoc = currentLocationForPanel;
+          sitePanelTitle.textContent = theLoc?.name || "(Location)";
+          sitePanelMeta.textContent = theLoc?.id || "";
+          const { keys, groups } = groupSitesByZone(theLoc);
+          if (!keys.length) {
+            sitePanelContent.innerHTML =
+              '<div class="section"><div class="subhead">No sites (filtered out or none)</div></div>';
+            sitePanel.style.display = "block";
+            return;
+          }
+          const html = keys
+            .map((k) => {
+              const zoneLabel = k === "unknown" ? "Unknown Zone" : `Zone ${k}`;
+              const list = groups
+                .get(k)
+                .map((s) => {
+                  const sid = s?._id ?? s?.id ?? "";
+                  const name = s?.name ?? sid;
+                  const t = classifySite(s);
+                  return `<button class="site-item" data-site-id="${String(
+                    sid
+                  )}">
+                        <span class="name">${name}</span>
+                        <span class="meta">${t}</span>
+                      </button>`;
+                })
+                .join("");
+              return `<div class="section">
+                      <div class="subhead">${zoneLabel}</div>
+                      <div class="site-list">${list}</div>
+                    </div>`;
+            })
+            .join("");
+          sitePanelContent.innerHTML = html;
+          // Attach click handlers (event delegation)
+          sitePanelContent.onclick = (e) => {
+            const btn = e.target.closest?.(".site-item");
+            if (!btn) return;
+            const sid = btn.getAttribute("data-site-id");
+            if (!sid || !currentLocationForPanel) return;
+            const site = currentLocationForPanel.sites.find(
+              (s) => String(s._id ?? s.id) === sid
+            );
+            if (site) showSiteDetails({ loc: theLoc, site });
+          };
+          sitePanel.style.display = "block";
+        }
+
+        /** Export */
+        function exportPNG() {
+          const prevDPR = DPR;
+          DPR = 2;
+          resize();
+          const url = canvas.toDataURL("image/png");
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "dark-map.png";
+          a.click();
+          DPR = prevDPR;
+          resize();
+        }
+        function exportRoadsJSON() {
+          if (!Array.isArray(roads)) return;
+          const payload = {};
+          for (let i = 0; i < roads.length; i++) payload[String(i)] = roads[i];
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "road.json";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        }
+        // Export handler moved to mapEvents.mjs
+
+        /** Main draw */
+        function draw(hovered) {
+          const g = canvas.getContext("2d");
+          // Reset to identity and clear the full device-sized canvas
+          g.setTransform(1, 0, 0, 1, 0, 0);
+          g.clearRect(0, 0, canvas.width, canvas.height);
+          g.fillStyle = COLORS.bg;
+          g.fillRect(0, 0, canvas.width, canvas.height);
+          // Apply only DPR to the drawing context; world<->screen is handled by helpers
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+          drawGrid();
+          // Draw buildings first (under roads)
+          if (buildings.length) {
+            ctx.save();
+            const bFill = PARAMS.buildings.fillColor || COLORS.buildingFill;
+            const bStroke = PARAMS.buildings.strokeColor || COLORS.buildingStroke;
+            ctx.fillStyle = bFill;
+            ctx.strokeStyle = bStroke;
+            ctx.globalAlpha = 1;
+            for (const b of buildings) {
+              const p = worldToScreen(b.cx, b.cy);
+              const k = vw.k;
+              const w = b.w * k;
+              const h = b.h * k;
+              ctx.save();
+              ctx.translate(p.x, p.y);
+              ctx.rotate(b.ang);
+              ctx.globalAlpha = PARAMS.buildings.fillOpacity;
+              ctx.fillRect(-w / 2, -h / 2, w, h);
+              ctx.globalAlpha = PARAMS.buildings.strokeOpacity;
+              ctx.lineWidth = Math.max(1, 1.2);
+              ctx.strokeRect(-w / 2, -h / 2, w, h);
+              ctx.restore();
+            }
+            ctx.restore();
+          }
+          const byId = Object.fromEntries(locations.map((l) => [l.id, l]));
+          roads.forEach((r, i) => {
+            const aRaw = typeof r.a === "string" ? byId[r.a] : r.a;
+            // Attach widthScale on the start point if available
+            const a = aRaw && r.widthScale ? { ...aRaw, widthScale: r.widthScale } : aRaw;
+            let b;
+            if (r.bCoord) {
+              const bid = r.id || `spur_${String(r.a)}_${i}`;
+              b = { id: bid, x: r.bCoord.x, y: r.bCoord.y };
+              if (r.widthScale) b.widthScale = r.widthScale;
+            } else {
+              b = typeof r.b === "string" ? byId[r.b] : r.b;
+              if (b && r.widthScale) b = { ...b, widthScale: r.widthScale };
+            }
+            if (!a || !b) return;
+            drawRoad(a, b, r.kind, r.style || "rough", !!r.freeway);
+            if (BEHAVIOR.showRoadIds) {
+              // Label at curved midpoint in screen space
+              const pa = worldToScreen(a.x, a.y);
+              const pb = worldToScreen(b.x, b.y);
+              const mx = (pa.x + pb.x) / 2;
+              const my = (pa.y + pb.y) / 2;
+              ctx.save();
+              ctx.font = `600 11px ${TEXT.fontFamily}`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'bottom';
+              ctx.fillStyle = 'rgba(255,255,255,0.85)';
+              ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+              ctx.lineWidth = 3;
+              const label = String(i);
+              ctx.strokeText(label, mx, my - 6);
+              ctx.fillText(label, mx, my - 6);
+              ctx.restore();
+            }
+          });
+          locations.forEach((l) =>
+            drawLocation(
+              l,
+              hovered && hovered.type === "loc" && hovered.data.id === l.id
+            )
+          );
+        }
+
+        // boot
+        const { initMapEvents } = await import("./mapEvents.mjs");
+        initMapEvents({
+          canvas,
+          windowObj: window,
+          documentObj: document,
+          vw,
+          resize,
+          draw,
+          hoverAt,
+          hitTest,
+          fitView,
+          exportPNG,
+          exportRoads: exportRoadsJSON,
+          cancelAnim,
+          STATE,
+          BEHAVIOR,
+          showSiteDetails,
+          hideSiteDetails,
+          showLocationSites,
+          clampViewport,
+        });
+        resize();
+        fitView();
+      })();
+    </script>
+  </body>
+</html>
