@@ -15,6 +15,7 @@
       <header>
         <h1>ZedCity Map</h1>
         <button id="fit" class="btn" title="Fit to view (F)">Fit</button>
+        <!--
         <button id="export" class="btn" title="Export PNG (E)">Export</button>
   <button id="exportRoads" class="btn" title="Export roads JSON">Export Roads</button>
         <label
@@ -41,6 +42,7 @@
         >
           <input type="checkbox" id="toggleRoadIds" /> Show road #
         </label>
+        -->
         <span class="hint"
           >Drag to pan • Wheel/Pinch to zoom • Hover to inspect • Click to
           pin</span
@@ -103,7 +105,7 @@
           // Show numeric indices above each road
           showRoadIds: false,
           // Zoom limits (synced from PARAMS.ui.zoom after PARAMS is defined)
-          zoomMin: 0.35,
+          zoomMin: 1,
           zoomMax: 3,
         };
 
@@ -182,7 +184,7 @@
           },
           roads: {
             width: {
-              base: { default: 5.5, primary: 7, arterial: 7.5, secondary: 5, spur: 3.5 },
+              base: { default: 5.5, primary: 6, arterial: 6.5, secondary: 5, spur: 3.5 },
               highwayMultiplier: 1.15,
               wideChance: 0.28,
               wideRange: { min: 1.8, max: 2.7 },
@@ -219,7 +221,7 @@
           ui: {
             gridStep: 64,
             introZoom: { enabled: true, startScale: 1, duration: 1000 },
-            zoom: { min: 0.09, max: 1, fitMax: 1.5 },
+            zoom: { min: 0.2, max: 1, fitMax: 1.5 },
           },
         };
 
@@ -1481,9 +1483,9 @@
             groups.get(k).sort((a, b) => {
               const ta = classifySite(a);
               const tb = classifySite(b);
-              const aIsGate = ta === "gate";
-              const bIsGate = tb === "gate";
-              if (aIsGate !== bIsGate) return aIsGate ? 1 : -1; // gates to bottom
+              const rank = (t) => (t === 'npc' ? 0 : t === 'scavenge' ? 1 : t === 'gate' ? 2 : 1.5);
+              const ra = rank(ta), rb = rank(tb);
+              if (ra !== rb) return ra - rb; // npc -> scavenge -> (unknown) -> gate
               const an = String(a.name || a._id || "");
               const bn = String(b.name || b._id || "");
               return an.localeCompare(bn);
