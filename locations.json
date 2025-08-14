@@ -817,7 +817,7 @@
             },
             "loot-2": {
               "codename": "viper_barnaclefish",
-              "chance": "0.1"
+              "chance": "<1"
             }
           },
           "processPHP": "room_scavenge",
@@ -863,7 +863,7 @@
             },
             "loot-2": {
               "loot_type": "item",
-              "chance": "0.1",
+              "chance": "<1",
               "codename": "giant_pufferfish",
               "qty": 1
             }
@@ -916,7 +916,7 @@
             },
             "loot-2": {
               "loot_type": "item",
-              "chance": "0.1",
+              "chance": "<1",
               "codename": "monster_catfish",
               "qty": 1
             }
@@ -1696,7 +1696,7 @@
             },
             "loot-4": {
               "loot_type": "item",
-              "chance": "0.2",
+              "chance": "<1",
               "codename": "automation_arm",
               "qty": 1
             }

@@ -1296,11 +1296,7 @@
           if (note) pieces.push(String(note));
           const chance = item.chance ?? item.probability ?? item.prob;
           if (chance !== undefined)
-            pieces.push(
-              `${Math.round(Number(chance) * 100) / 100}${
-                String(chance).includes("%") ? "" : "%"
-              } chance`.replace("% chance", "% chance")
-            );
+            pieces.push(chance+"%");
           if (item.weight !== undefined) pieces.push(`w: ${item.weight}`);
           if (item.rarity !== undefined) pieces.push(`rarity: ${item.rarity}`);
           const extra = pieces.join(" • ");
